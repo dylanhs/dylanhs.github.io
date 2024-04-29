@@ -1,59 +1,131 @@
-<div class="justify-content-center">
-  <fieldset>
-    <legend style="font-weight: bold;font-size: x-large">Select contribution amount</legend>
-    <div class="donation-options">
-      <input class="donation-option" type="radio" id="donation_option_10" name="donation_option" value="10.00" checked>
-      <label class="pseudo-button" for="donation_option_10">$10</label>
-      <input class="donation-option" type="radio" id="donation_option_15" name="donation_option" value="15.00">
-      <label class="pseudo-button" for="donation_option_15">$15</label>
-      <input class="donation-option" type="radio" id="donation_option_20" name="donation_option" value="20.00">
-      <label class="pseudo-button" for="donation_option_20">$20</label>
-      <input class="donation-option" type="radio" id="donation_option_25" name="donation_option" value="25.00">
-      <label class="pseudo-button" for="donation_option_25">$25</label>
-      <input class="donation-option" type="radio" id="donation_option_other" name="donation_option" value="Other">
-      <label class="pseudo-button" for="donation_option_other">Other</label>
-    </div>
-  </fieldset>
-  <form id="donate_form" action="https://donate.stripe.com/test_bIY9ED8pm0Ln6NqbIJ" target="_blank">
-    <div style="padding:8px 12px;border-radius:4px">
-      <label for="donation_amount">$</label>
-      <input id="donation_amount" type="text" value="10.00" required/>
-      <label for="donation_amount" id="error_message" style="color:red;font-size:small;"></label>
-    </div>
-    <div>
-      <p>Contributions are not tax deductible. Contributions from business entities, including corporations, LLCs and LLPs, are prohibited. Individuals and most non-incorporated entities may contribute up to $500. Spouses and domestic partners may each contribute the maximum, even if their contributions are made from a joint account, but must submit separate contributions, each signed by the contributing spouse/partner. We cannot deposit your payment without your name, street address (no PO boxes), occupation, and employer. We cannot accept cash, cashier's checks, or money orders of $100 or more. San Francisco's contribution rules also include other prohibitions, including bans on contributions from city contractors and lobbyists. Finance professionals whose firms work with local governments should also consult their in-house counsel about applicable SEC rules.</p>
-      <p>
-        Before proceeding with this transaction, you must confirm that the following statements are true and accurate:<br>
-        <ol>
-          <li>I am a U.S. citizen or lawfully admitted permanent resident (i.e., green card holder).</li>
-          <li>This contribution is made from my own funds, and funds are not being provided to me by another person or entity for the purpose of making this contribution.
-          <li>I am at least eighteen years old.</li>
-          <li>I am not an owner, director, officer, or named sub-contractor of any entity that is currently negotiating a contract with the City and County of San Francisco or of any entity that received such a contract within the last twelve months.</li>
-          <li>I am not a contract or expenditure lobbyist in the City of San Francisco.</li>
-          <li>My aggregated contribution(s) to this committee do not exceed $500.</li>
-          <li>This contribution is not from a corporation, limited liability company, or limited liability partnership.</li>
-          <li>I do not have a financial interest in a land use matter valued at $5,000,000 or more that is currently pending before the Board of Appeals, Board of Supervisors, Building Inspection Commission, Commission on Community Investment and Infrastructure, Historic Preservation Commission, Planning Commission, Port Commission, or Treasure Island Development Authority Board of Directors, nor have I had a financial interest in any such land use matter for which any of these boards or commissions have rendered a final decision or ruling within the last twelve months.</li>
-        </ol>
-      </p>
-    </div>
-    <div>
-      <input type="checkbox" onclick="document.getElementById('donate_button').disabled=(this.checked==false)" id="confirmation_check">
-      <label for="confirmation_check">I confirm that the above statements are true and accurate.</label>
-    </div>
-    <div>
-      <input class="pseudo-button submit-button" type="submit" value="Donate" id="donate_button" disabled>
-      <input type="hidden" id="hidden_field" name="__prefilled_amount" value="">
-    </div>
-  </form>
-</div>
-
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+  * {
+    box-sizing: border-box;
+  }
+
+  .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  [class*="col-"] {
+    float: left;
+    padding: 15px;
+  }
+
+  /* For mobile phones: */
+  [class*="col-"] {
+    width: 100%;
+  }
+
+  /* Small devices (portrait tablets and large phones, 600px and up) */
+  @media only screen and (min-width: 600px) {
+    .col-s-1 {width: 8.33%;}
+    .col-s-2 {width: 16.66%;}
+    .col-s-3 {width: 25%;}
+    .col-s-4 {width: 33.33%;}
+    .col-s-5 {width: 41.66%;}
+    .col-s-6 {width: 50%;}
+    .col-s-7 {width: 58.33%;}
+    .col-s-8 {width: 66.66%;}
+    .col-s-9 {width: 75%;}
+    .col-s-10 {width: 83.33%;}
+    .col-s-11 {width: 91.66%;}
+    .col-s-12 {width: 100%;}
+  }
+
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    .col-m-1 {width: 8.33%;}
+    .col-m-2 {width: 16.66%;}
+    .col-m-3 {width: 25%;}
+    .col-m-4 {width: 33.33%;}
+    .col-m-5 {width: 41.66%;}
+    .col-m-6 {width: 50%;}
+    .col-m-7 {width: 58.33%;}
+    .col-m-8 {width: 66.66%;}
+    .col-m-9 {width: 75%;}
+    .col-m-10 {width: 83.33%;}
+    .col-m-11 {width: 91.66%;}
+    .col-m-12 {width: 100%;}
+  }
+
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    .col-m-1 {width: 8.33%;}
+    .col-m-2 {width: 16.66%;}
+    .col-m-3 {width: 25%;}
+    .col-m-4 {width: 33.33%;}
+    .col-m-5 {width: 41.66%;}
+    .col-m-6 {width: 50%;}
+    .col-m-7 {width: 58.33%;}
+    .col-m-8 {width: 66.66%;}
+    .col-m-9 {width: 75%;}
+    .col-m-10 {width: 83.33%;}
+    .col-m-11 {width: 91.66%;}
+    .col-m-12 {width: 100%;}
+  }
+
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+    .col-l-1 {width: 8.33%;}
+    .col-l-2 {width: 16.66%;}
+    .col-l-3 {width: 25%;}
+    .col-l-4 {width: 33.33%;}
+    .col-l-5 {width: 41.66%;}
+    .col-l-6 {width: 50%;}
+    .col-l-7 {width: 58.33%;}
+    .col-l-8 {width: 66.66%;}
+    .col-l-9 {width: 75%;}
+    .col-l-10 {width: 83.33%;}
+    .col-l-11 {width: 91.66%;}
+    .col-l-12 {width: 100%;}
+  }
+
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    .col-xl-1 {width: 8.33%;}
+    .col-xl-2 {width: 16.66%;}
+    .col-xl-3 {width: 25%;}
+    .col-xl-4 {width: 33.33%;}
+    .col-xl-5 {width: 41.66%;}
+    .col-xl-6 {width: 50%;}
+    .col-xl-7 {width: 58.33%;}
+    .col-xl-8 {width: 66.66%;}
+    .col-xl-9 {width: 75%;}
+    .col-xl-10 {width: 83.33%;}
+    .col-xl-11 {width: 91.66%;}
+    .col-xl-12 {width: 100%;}
+  }
+
+  html {
+    font-family: "Lucida Sans", sans-serif;
+  }
+
   fieldset {
     border: 0;
   }
 
   .justify-content-center {
     justify-content: center;
+  }
+
+  .float-center {
+    float: center;
+  }
+
+  .full-width {
+    width: 100%;
+    height: auto;
+  }
+
+  .h6 {
+    font-size: 1.25rem
   }
 
   .donation-option {
@@ -85,6 +157,61 @@
     color:rgb(255, 255, 255);
   }
 </style>
+</head>
+
+<body>
+<div class="row">
+<div class="col-1 col-s-2 col-m-3 col-l-3 col-xl-3"></div>
+<div class="col-1 col-s-8 col-m-6 col-l-6 col-xl-6 justify-content-center">
+  <fieldset class="justify-content-center float-center full-width" style="max-width:100%;height:auto;">
+    <legend class="h6" style="font-weight: bold;font-size: x-large">Select contribution amount</legend>
+    <div class="donation-options justify-content-center float-center full-width">
+      <input class="donation-option" type="radio" id="donation_option_10" name="donation_option" value="10.00" checked>
+      <label class="pseudo-button" for="donation_option_10">$10</label>
+      <input class="donation-option" type="radio" id="donation_option_15" name="donation_option" value="15.00">
+      <label class="pseudo-button" for="donation_option_15">$15</label>
+      <input class="donation-option" type="radio" id="donation_option_20" name="donation_option" value="20.00">
+      <label class="pseudo-button" for="donation_option_20">$20</label>
+      <input class="donation-option" type="radio" id="donation_option_25" name="donation_option" value="25.00">
+      <label class="pseudo-button" for="donation_option_25">$25</label>
+      <input class="donation-option" type="radio" id="donation_option_other" name="donation_option" value="Other">
+      <label class="pseudo-button" for="donation_option_other">Other</label>
+    </div>
+  </fieldset>
+  <form class="justify-content-center float-center full-width" id="donate_form" action="https://donate.stripe.com/test_bIY9ED8pm0Ln6NqbIJ" target="_blank">
+    <div class="justify-content-center" style="padding:8px 12px;border-radius:4px">
+      <label for="donation_amount">$</label>
+      <input id="donation_amount" type="text" value="10.00" required/>
+      <label for="donation_amount" id="error_message" style="color:red;font-size:small;"></label>
+    </div>
+    <div>
+      <p>Contributions are not tax deductible. Contributions from business entities, including corporations, LLCs and LLPs, are prohibited. Individuals and most non-incorporated entities may contribute up to $500. Spouses and domestic partners may each contribute the maximum, even if their contributions are made from a joint account, but must submit separate contributions, each signed by the contributing spouse/partner. We cannot deposit your payment without your name, street address (no PO boxes), occupation, and employer. We cannot accept cash, cashier's checks, or money orders of $100 or more. San Francisco's contribution rules also include other prohibitions, including bans on contributions from city contractors and lobbyists. Finance professionals whose firms work with local governments should also consult their in-house counsel about applicable SEC rules.</p>
+      <p>
+        Before proceeding with this transaction, you must confirm that the following statements are true and accurate:<br>
+        <ol>
+          <li>I am a U.S. citizen or lawfully admitted permanent resident (i.e., green card holder).</li>
+          <li>This contribution is made from my own funds, and funds are not being provided to me by another person or entity for the purpose of making this contribution.
+          <li>I am at least eighteen years old.</li>
+          <li>I am not an owner, director, officer, or named sub-contractor of any entity that is currently negotiating a contract with the City and County of San Francisco or of any entity that received such a contract within the last twelve months.</li>
+          <li>I am not a contract or expenditure lobbyist in the City of San Francisco.</li>
+          <li>My aggregated contribution(s) to this committee do not exceed $500.</li>
+          <li>This contribution is not from a corporation, limited liability company, or limited liability partnership.</li>
+          <li>I do not have a financial interest in a land use matter valued at $5,000,000 or more that is currently pending before the Board of Appeals, Board of Supervisors, Building Inspection Commission, Commission on Community Investment and Infrastructure, Historic Preservation Commission, Planning Commission, Port Commission, or Treasure Island Development Authority Board of Directors, nor have I had a financial interest in any such land use matter for which any of these boards or commissions have rendered a final decision or ruling within the last twelve months.</li>
+        </ol>
+      </p>
+    </div>
+    <div>
+      <input type="checkbox" onclick="document.getElementById('donate_button').disabled=(this.checked==false)" id="confirmation_check">
+      <label for="confirmation_check">I confirm that the above statements are true and accurate.</label>
+    </div>
+    <div class="justify-content-center float-center full-width">
+      <input class="pseudo-button submit-button" type="submit" value="Donate" id="donate_button" disabled>
+      <input type="hidden" id="hidden_field" name="__prefilled_amount" value="">
+    </div>
+  </form>
+</div>
+<div class="col-1 col-s-2 col-m-3 col-l-3 col-xl-3"></div>
+</div>
 
 <script>
   const donationOptions = document.getElementsByClassName('donation-option');
@@ -152,6 +279,8 @@
     x.srcElement.value = Number.parseFloat(x.srcElement.value).toFixed(2);
   });
 </script>
+</body>
+</html>
 
 <!-- Load Stripe.js on your website. -->
 <!-- <script src="https://js.stripe.com/v3"></script> -->
