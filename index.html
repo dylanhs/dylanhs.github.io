@@ -1,116 +1,283 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Stripe Checkout Sample</title>
-    <meta name="description" content="A demo of Stripe client-only Checkout" />
-
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="css/normalize.css" />
-    <link rel="stylesheet" href="css/global.css" />
-    <!-- Load Stripe.js on your website. -->
-    <script src="https://js.stripe.com/v3/"></script>
-  </head>
-
-  <body>
-    <div class="sr-root">
-      <div class="sr-main" style="display: flex;">
-        <header class="sr-header">
-          <div class="sr-header__logo"></div>
-        </header>
-        <div class="sr-container">
-          <section class="container">
-            <h1>One-time Donation</h1>
-            <button
-              data-checkout-mode="payment"
-              data-price-id="sku_GU4JYXyvvRb2sX"
-            >
-              Donate $5.00 once
-            </button>
-            <button
-              data-checkout-mode="payment"
-              data-price-id="sku_GU4KO8nfdg8G2Z"
-            >
-              Donate $15.00 once
-            </button>
-            <button
-              data-checkout-mode="payment"
-              data-price-id="sku_GU4LB0wBViiYsm"
-            >
-              Donate $50.00 once
-            </button>
-          </section>
-          <section class="container">
-            <h1>Recurring Donation</h1>
-            <button
-              data-checkout-mode="subscription"
-              data-price-id="plan_GU4MXg0k0Uv1S6"
-            >
-              Donate $20.00 per month
-            </button>
-          </section>
-        </div>
-        <div id="error-message"></div>
-      </div>
+<div class="justify-content-center">
+  <fieldset>
+    <legend style="font-weight: bold;font-size: x-large">Select contribution amount</legend>
+    <div class="donation-options">
+      <input class="donation-option" type="radio" id="donation_option_10" name="donation_option" value="10.00" checked>
+      <label class="pseudo-button" for="donation_option_10">$10</label>
+      <input class="donation-option" type="radio" id="donation_option_15" name="donation_option" value="15.00">
+      <label class="pseudo-button" for="donation_option_15">$15</label>
+      <input class="donation-option" type="radio" id="donation_option_20" name="donation_option" value="20.00">
+      <label class="pseudo-button" for="donation_option_20">$20</label>
+      <input class="donation-option" type="radio" id="donation_option_25" name="donation_option" value="25.00">
+      <label class="pseudo-button" for="donation_option_25">$25</label>
+      <input class="donation-option" type="radio" id="donation_option_other" name="donation_option" value="Other">
+      <label class="pseudo-button" for="donation_option_other">Other</label>
     </div>
-    <div class="banner">
-      <span>
-        This is a
-        <a href="https://github.com/stripe-samples"> Stripe Sample </a> on how
-        to use Stripe Checkout on GitHub Pages.
-        <a
-          href="https://github.com/stripe-samples/github-pages-stripe-checkout"
-        >
-          View code on GitHub.
-        </a>
-      </span>
+  </fieldset>
+  <form id="donate_form" action="https://donate.stripe.com/test_bIY9ED8pm0Ln6NqbIJ" target="_blank">
+    <div style="padding:8px 12px;border-radius:4px">
+      <label for="donation_amount">$</label>
+      <input id="donation_amount" type="text" value="10.00" required/>
+      <label for="donation_amount" id="error_message" style="color:red;font-size:small;"></label>
     </div>
+    <div>
+      <p>Contributions are not tax deductible. Contributions from business entities, including corporations, LLCs and LLPs, are prohibited. Individuals and most non-incorporated entities may contribute up to $500. Spouses and domestic partners may each contribute the maximum, even if their contributions are made from a joint account, but must submit separate contributions, each signed by the contributing spouse/partner. We cannot deposit your payment without your name, street address (no PO boxes), occupation, and employer. We cannot accept cash, cashier's checks, or money orders of $100 or more. San Francisco's contribution rules also include other prohibitions, including bans on contributions from city contractors and lobbyists. Finance professionals whose firms work with local governments should also consult their in-house counsel about applicable SEC rules.</p>
+      <p>
+        Before proceeding with this transaction, you must confirm that the following statements are true and accurate:<br>
+        <ol>
+          <li>I am a U.S. citizen or lawfully admitted permanent resident (i.e., green card holder).</li>
+          <li>This contribution is made from my own funds, and funds are not being provided to me by another person or entity for the purpose of making this contribution.
+          <li>I am at least eighteen years old.</li>
+          <li>I am not an owner, director, officer, or named sub-contractor of any entity that is currently negotiating a contract with the City and County of San Francisco or of any entity that received such a contract within the last twelve months.</li>
+          <li>I am not a contract or expenditure lobbyist in the City of San Francisco.</li>
+          <li>My aggregated contribution(s) to this committee do not exceed $500.</li>
+          <li>This contribution is not from a corporation, limited liability company, or limited liability partnership.</li>
+          <li>I do not have a financial interest in a land use matter valued at $5,000,000 or more that is currently pending before the Board of Appeals, Board of Supervisors, Building Inspection Commission, Commission on Community Investment and Infrastructure, Historic Preservation Commission, Planning Commission, Port Commission, or Treasure Island Development Authority Board of Directors, nor have I had a financial interest in any such land use matter for which any of these boards or commissions have rendered a final decision or ruling within the last twelve months.</li>
+        </ol>
+      </p>
+    </div>
+    <div>
+      <input type="checkbox" onclick="document.getElementById('donate_button').disabled=(this.checked==false)" id="confirmation_check">
+      <label for="confirmation_check">I confirm that the above statements are true and accurate.</label>
+    </div>
+    <div>
+      <input class="pseudo-button submit-button" type="submit" value="Donate" id="donate_button" disabled>
+      <input type="hidden" id="hidden_field" name="__prefilled_amount" value="">
+    </div>
+  </form>
+</div>
 
-    <script>
-      // Replace with your own publishable key: https://dashboard.stripe.com/test/apikeys
-      var PUBLISHABLE_KEY = 'pk_test_51OtwyVRqsUBRwjQJmud4ju0BRkEgWOQR5VfbfC5eksvzoJwnCr4ot6tBzCK5ivqKRjWFAB6O4iJj8AL0NF5AEBgp008vGKVJI5';
-      // Replace with the domain you want your users to be redirected back to after payment
-      var DOMAIN = location.href.replace(/[^/]*$/, '');
+<style>
+  fieldset {
+    border: 0;
+  }
 
-      if (PUBLISHABLE_KEY === 'pk_test_Tr8olTkdFnnJVywwhNPHwnHK00HkHV4tnP') {
-        console.log(
-          'Replace the hardcoded publishable key with your own publishable key: https://dashboard.stripe.com/test/apikeys'
-        );
-      }
+  .justify-content-center {
+    justify-content: center;
+  }
 
-      var stripe = Stripe(PUBLISHABLE_KEY);
+  .donation-option {
+    display: none;
+  }
 
-      // Handle any errors from Checkout
-      var handleResult = function (result) {
-        if (result.error) {
-          var displayError = document.getElementById('error-message');
-          displayError.textContent = result.error.message;
-        }
-      };
+  .donation-option:checked + label {
+    background-color:#9999FF;
+    color:#ffffff;
+  }
 
-      document.querySelectorAll('button').forEach(function (button) {
-        button.addEventListener('click', function (e) {
-          var mode = e.target.dataset.checkoutMode;
-          var priceId = e.target.dataset.priceId;
-          var items = [{ price: priceId, quantity: 1 }];
+  .submit-button:disabled {
+    background-color:#9999ff98;
+    color:#898989a3;
+  }
 
-          // Make the call to Stripe.js to redirect to the checkout page
-          // with the sku or plan ID.
-          stripe
-            .redirectToCheckout({
-              mode: mode,
-              lineItems: items,
-              successUrl:
-                DOMAIN + 'success.html?session_id={CHECKOUT_SESSION_ID}',
-              cancelUrl:
-                DOMAIN + 'canceled.html?session_id={CHECKOUT_SESSION_ID}',
-            })
-            .then(handleResult);
-        });
+  .pseudo-button {
+    background-color:#9fa2bf;
+    color:#000000;
+    padding:8px 12px;
+    border:0;
+    border-radius:4px;
+    font-size:1em;
+    font-weight:bold;
+    cursor:pointer;
+  }
+
+  .pseudo-button:hover {
+    color:rgb(255, 255, 255);
+  }
+</style>
+
+<script>
+  const donationOptions = document.getElementsByClassName('donation-option');
+  var donationAmount = document.getElementById("donation_amount");
+  var inputErrorMessage = document.getElementById("error_message");
+  var MIN_ALLOWED_DONATION = 1;
+  var MAX_ALLOWED_DONATION = 500;
+
+  for (var i = 0; i < donationOptions.length; i++) {
+    var option = donationOptions[i];
+    const amount = option.id.split('_').slice(-1)[0];
+    if (amount == "other") {
+      option.addEventListener('click', () => {
+        var donationAmount = document.getElementById('donation_amount');
+        donationAmount.focus();
+        donationAmount.select();
       });
-    </script>
-  </body>
-</html>
+    } else {
+      option.addEventListener('click', () => {
+        updateDonationAmount(amount);
+      });
+    }
+  }
+
+  function updateDonationAmount(amount) {
+    var donationAmount = document.getElementById('donation_amount');
+    donationAmount.value = parseFloat(amount).toFixed(2);
+    var displayError = document.getElementById('error_message');
+    displayError.textContent = "";
+  }
+
+  document.getElementById("donate_form").addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    donationAmount = document.getElementById("donation_amount").value;
+    if (donationAmount < 1.00) {
+      var displayError = document.getElementById('error_message');
+      displayError.textContent = "Please enter a value between $" + MIN_ALLOWED_DONATION + " and $" + MAX_ALLOWED_DONATION + ".";
+    } else {
+      donationAmountForStripe = donationAmount*100;
+      document.getElementById("hidden_field").value = donationAmountForStripe.toFixed(0).toString();
+      event.srcElement.submit();
+    }
+  });
+
+  var donationAmount = document.getElementById('donation_amount');
+  donationAmount.addEventListener('change', (x) => {
+    const val = x.srcElement.value;
+    if (isNaN(val)) {
+      x.srcElement.value = 0.00;
+      var displayError = document.getElementById('error_message');
+      displayError.textContent = "Please enter a value between $" + MIN_ALLOWED_DONATION + " and $" + MAX_ALLOWED_DONATION + ".";
+    } else if (val < MIN_ALLOWED_DONATION) {
+      x.srcElement.value = 0.00;
+      var displayError = document.getElementById('error_message');
+      displayError.textContent = "Please enter a value between $" + MIN_ALLOWED_DONATION + " and $" + MAX_ALLOWED_DONATION + ".";
+    } else if (val > MAX_ALLOWED_DONATION) {
+      var displayError = document.getElementById('error_message');
+      displayError.textContent = "Reduced to maximum of $" + MAX_ALLOWED_DONATION + ".";
+      x.srcElement.value = MAX_ALLOWED_DONATION;
+    } else {
+      var displayError = document.getElementById('error_message');
+      displayError.textContent = "";
+    }
+    x.srcElement.value = Number.parseFloat(x.srcElement.value).toFixed(2);
+  });
+</script>
+
+<!-- Load Stripe.js on your website. -->
+<!-- <script src="https://js.stripe.com/v3"></script> -->
+
+<!-- Create a button that your customers click to complete their purchase. Customize the styling to suit your branding. -->
+<!-- <button
+  style="background-color:#6772e5;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em;cursor:pointer"
+  id="donation-amount-10"
+  onclick="document.getElementById('donation-amount').value='10.00'"
+>
+  $10
+</button>
+
+<button
+  style="background-color:#6772e5;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em;cursor:pointer"
+  id="donation-amount-15"
+  onclick="document.getElementById('donation-amount').value='15.00'"
+>
+  $15
+</button>
+<button
+  style="background-color:#6772e5;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em;cursor:pointer"
+  id="donation-amount-20"
+  onclick="document.getElementById('donation-amount').value='20.00'"
+>
+  $20
+</button>
+<button
+  style="background-color:#6772e5;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em;cursor:pointer"
+  id="checkout-button-price_1PA6nSRqsUBRwjQJAdIIXmf6"
+  role="link"
+  type="button"
+>
+  25
+</button>
+<br>
+<input type="text" id="donation-amount" value="25.00">
+
+<div id="error-message"></div>
+
+<script>
+  function changeInputValue() {
+    const inputValue = "New Value"; // Change this to the desired value
+    document.getElementById("myInput").value = inputValue;
+  }  
+</script>
+
+<script>
+(function() {
+    var stripe = Stripe('pk_test_51OtwyVRqsUBRwjQJmud4ju0BRkEgWOQR5VfbfC5eksvzoJwnCr4ot6tBzCK5ivqKRjWFAB6O4iJj8AL0NF5AEBgp008vGKVJI5');
+
+    var fifteenButton = document.getElementById('checkout-button-price_1PA6nSRqsUBRwjQJAdIIXmf6');
+    fifteenButton.addEventListener('click', function () {
+    /*
+     * When the customer clicks on the button, redirect
+     * them to Checkout.
+     */
+    stripe.redirectToCheckout({
+      lineItems: [{price: 'price_1PA6nSRqsUBRwjQJAdIIXmf6', quantity: 1}],
+      mode: 'payment',
+      /*
+       * Do not rely on the redirect to the successUrl for fulfilling
+       * purchases, customers may not always reach the success_url after
+       * a successful payment.
+       * Instead use one of the strategies described in
+       * https://docs.stripe.com/payments/checkout/fulfill-orders
+       */
+      successUrl: window.location.protocol + '//www.dylanforsfmayor.com',
+      cancelUrl: window.location.protocol + '//www.dylanforsfmayor.com',
+    })
+    .then(function (result) {
+      if (result.error) {
+        /*
+         * If `redirectToCheckout` fails due to a browser or network
+         * error, display the localized error message to your customer.
+         */
+        var displayError = document.getElementById('error-message');
+        displayError.textContent = result.error.message;
+      }
+    });
+
+    var twentyFiveButton = document.getElementById('checkout-button-price_1PA6nSRqsUBRwjQJAdIIXmf6');
+
+    twentyFiveButton.addEventListener('click', function () {
+    /*
+     * When the customer clicks on the button, redirect
+     * them to Checkout.
+     */
+    stripe.redirectToCheckout({
+      lineItems: [{price: 'price_1PA6nSRqsUBRwjQJAdIIXmf6', quantity: 1}],
+      mode: 'payment',
+      /*
+       * Do not rely on the redirect to the successUrl for fulfilling
+       * purchases, customers may not always reach the success_url after
+       * a successful payment.
+       * Instead use one of the strategies described in
+       * https://docs.stripe.com/payments/checkout/fulfill-orders
+       */
+      successUrl: window.location.protocol + '//www.dylanforsfmayor.com',
+      cancelUrl: window.location.protocol + '//www.dylanforsfmayor.com',
+    })
+    .then(function (result) {
+      if (result.error) {
+        /*
+         * If `redirectToCheckout` fails due to a browser or network
+         * error, display the localized error message to your customer.
+         */
+        var displayError = document.getElementById('error-message');
+        displayError.textContent = result.error.message;
+      }
+    });
+
+  });
+})();
+</script>
+
+<script async
+  src="https://js.stripe.com/v3/buy-button.js">
+</script>
+
+<stripe-buy-button
+  buy-button-id="buy_btn_1PAdWZRqsUBRwjQJDl2eXkJQ"
+  publishable-key="pk_test_51OtwyVRqsUBRwjQJmud4ju0BRkEgWOQR5VfbfC5eksvzoJwnCr4ot6tBzCK5ivqKRjWFAB6O4iJj8AL0NF5AEBgp008vGKVJI5"
+>
+</stripe-buy-button>
+-->
 
 <!-- ---
 <head>
