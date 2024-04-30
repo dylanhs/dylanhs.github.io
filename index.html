@@ -55,22 +55,6 @@
     .col-m-12 {width: 100%;}
   }
 
-  /* Medium devices (landscape tablets, 768px and up) */
-  @media only screen and (min-width: 768px) {
-    .col-m-1 {width: 8.33%;}
-    .col-m-2 {width: 16.66%;}
-    .col-m-3 {width: 25%;}
-    .col-m-4 {width: 33.33%;}
-    .col-m-5 {width: 41.66%;}
-    .col-m-6 {width: 50%;}
-    .col-m-7 {width: 58.33%;}
-    .col-m-8 {width: 66.66%;}
-    .col-m-9 {width: 75%;}
-    .col-m-10 {width: 83.33%;}
-    .col-m-11 {width: 91.66%;}
-    .col-m-12 {width: 100%;}
-  }
-
   /* Large devices (laptops/desktops, 992px and up) */
   @media only screen and (min-width: 992px) {
     .col-l-1 {width: 8.33%;}
@@ -107,8 +91,17 @@
     font-family: "Lucida Sans", sans-serif;
   }
 
+  body {
+    font-size: 100%;
+  }
+
   fieldset {
     border: 0;
+  }
+
+  .legend {
+    font-size:1.25em;
+    font-weight:bold;
   }
 
   .justify-content-center {
@@ -122,10 +115,6 @@
   .full-width {
     width: 100%;
     height: auto;
-  }
-
-  .h6 {
-    font-size: 1.25rem
   }
 
   .donation-option {
@@ -163,26 +152,22 @@
 <div class="row">
 <div class="col-1 col-s-2 col-m-3 col-l-3 col-xl-3"></div>
 <div class="col-1 col-s-8 col-m-6 col-l-6 col-xl-6 justify-content-center">
-  <fieldset class="justify-content-center float-center full-width" style="max-width:100%;height:auto;">
-    <legend class="h6" style="font-weight: bold;font-size: x-large">Select contribution amount</legend>
+  <fieldset class="justify-content-center float-center full-width" style="max-width:100%;height:auto;" id="donation_options">
+    <legend class="legend">Select contribution amount</legend>
     <div class="donation-options justify-content-center float-center full-width">
-      <input class="donation-option" type="radio" id="donation_option_10" name="donation_option" value="10.00" checked>
-      <label class="pseudo-button" for="donation_option_10">$10</label>
-      <input class="donation-option" type="radio" id="donation_option_15" name="donation_option" value="15.00">
-      <label class="pseudo-button" for="donation_option_15">$15</label>
-      <input class="donation-option" type="radio" id="donation_option_20" name="donation_option" value="20.00">
-      <label class="pseudo-button" for="donation_option_20">$20</label>
-      <input class="donation-option" type="radio" id="donation_option_25" name="donation_option" value="25.00">
-      <label class="pseudo-button" for="donation_option_25">$25</label>
+      <input class="donation-option" type="radio" id="donation_option_12" name="donation_option" value="12.00" checked>
+      <label class="pseudo-button" for="donation_option_12">$12</label>
+      <input class="donation-option" type="radio" id="donation_option_24" name="donation_option" value="24.00">
+      <label class="pseudo-button" for="donation_option_24">$24</label>
       <input class="donation-option" type="radio" id="donation_option_other" name="donation_option" value="Other">
-      <label class="pseudo-button" for="donation_option_other">Other</label>
+      <label class="pseudo-button" for="donation_option_other">Other ($500 max)</label>
     </div>
   </fieldset>
   <form class="justify-content-center float-center full-width" id="donate_form" action="https://donate.stripe.com/test_bIY9ED8pm0Ln6NqbIJ" target="_blank">
     <div class="justify-content-center" style="padding:8px 12px;border-radius:4px">
-      <label for="donation_amount">$</label>
-      <input id="donation_amount" type="text" value="10.00" required/>
-      <label for="donation_amount" id="error_message" style="color:red;font-size:small;"></label>
+      <label style="font-size:1em" for="donation_amount">$</label>
+      <input style="font-size:1em" id="donation_amount" type="text" value="12.00" required/>
+      <label for="donation_amount" id="error_message" style="color:red;"></label>
     </div>
     <div>
       <p>Contributions are not tax deductible. Contributions from business entities, including corporations, LLCs and LLPs, are prohibited. Individuals and most non-incorporated entities may contribute up to $500. Spouses and domestic partners may each contribute the maximum, even if their contributions are made from a joint account, but must submit separate contributions, each signed by the contributing spouse/partner. We cannot deposit your payment without your name, street address (no PO boxes), occupation, and employer. We cannot accept cash, cashier's checks, or money orders of $100 or more. San Francisco's contribution rules also include other prohibitions, including bans on contributions from city contractors and lobbyists. Finance professionals whose firms work with local governments should also consult their in-house counsel about applicable SEC rules.</p>
@@ -239,44 +224,53 @@
   function updateDonationAmount(amount) {
     var donationAmount = document.getElementById('donation_amount');
     donationAmount.value = parseFloat(amount).toFixed(2);
-    var displayError = document.getElementById('error_message');
-    displayError.textContent = "";
+    var errorLabel = document.getElementById('error_message');
+    errorLabel.textContent = "";
   }
 
   document.getElementById("donate_form").addEventListener("submit", (event) => {
     event.preventDefault();
 
-    donationAmount = document.getElementById("donation_amount").value;
+    const donationAmount = document.getElementById("donation_amount").value;
+    var errorLabel = document.getElementById('error_message');
     if (donationAmount < 1.00) {
-      var displayError = document.getElementById('error_message');
-      displayError.textContent = "Please enter a value between $" + MIN_ALLOWED_DONATION + " and $" + MAX_ALLOWED_DONATION + ".";
+      errorLabel.textContent = "Please enter a value between $" + MIN_ALLOWED_DONATION + " and $" + MAX_ALLOWED_DONATION + ".";
+      document.getElementById("donation_options").scrollIntoView();
     } else {
+      errorLabel.textContent = "";
       donationAmountForStripe = donationAmount*100;
       document.getElementById("hidden_field").value = donationAmountForStripe.toFixed(0).toString();
       event.srcElement.submit();
+      document.getElementById("donation_amount").value = "";
     }
   });
 
   var donationAmount = document.getElementById('donation_amount');
   donationAmount.addEventListener('change', (x) => {
     const val = x.srcElement.value;
+    var errorLabel = document.getElementById('error_message');
     if (isNaN(val)) {
       x.srcElement.value = 0.00;
-      var displayError = document.getElementById('error_message');
-      displayError.textContent = "Please enter a value between $" + MIN_ALLOWED_DONATION + " and $" + MAX_ALLOWED_DONATION + ".";
+      errorLabel.textContent = "Please enter a value between $" + MIN_ALLOWED_DONATION + " and $" + MAX_ALLOWED_DONATION + ".";
     } else if (val < MIN_ALLOWED_DONATION) {
       x.srcElement.value = 0.00;
-      var displayError = document.getElementById('error_message');
-      displayError.textContent = "Please enter a value between $" + MIN_ALLOWED_DONATION + " and $" + MAX_ALLOWED_DONATION + ".";
+      errorLabel.textContent = "Please enter a value between $" + MIN_ALLOWED_DONATION + " and $" + MAX_ALLOWED_DONATION + ".";
     } else if (val > MAX_ALLOWED_DONATION) {
-      var displayError = document.getElementById('error_message');
-      displayError.textContent = "Reduced to maximum of $" + MAX_ALLOWED_DONATION + ".";
+      errorLabel.textContent = "Reduced to maximum of $" + MAX_ALLOWED_DONATION + ".";
       x.srcElement.value = MAX_ALLOWED_DONATION;
     } else {
-      var displayError = document.getElementById('error_message');
-      displayError.textContent = "";
+      errorLabel.textContent = "";
     }
     x.srcElement.value = Number.parseFloat(x.srcElement.value).toFixed(2);
+    var donation_options = document.getElementsByName("donation_option");
+    for (var i = 0; i < donation_options.length; i++) {
+      const option = donationOptions[i];
+      const amount = option.id.split('_').slice(-1)[0];
+      if (x.srcElement.value == Number.parseFloat(amount).toFixed(2) || amount == "other") {
+        donation_options[i].checked = true;
+        break;
+      }
+    };
   });
 </script>
 </body>
