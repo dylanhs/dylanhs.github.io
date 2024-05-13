@@ -1,568 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-  * {
-    box-sizing: border-box;
-  }
-
-  .row::after {
-    content: "";
-    clear: both;
-    display: table;
-  }
-
-  [class*="col-"] {
-    float: left;
-    padding: 5px;
-  }
-
-  /* For mobile phones: */
-  [class*="col-"] {
-    width: 100%;
-  }
-
-  /* Small devices (portrait tablets and large phones, 600px and up) */
-  @media only screen and (min-width: 600px) {
-    .col-s-1 {width: 8.33%;}
-    .col-s-2 {width: 16.66%;}
-    .col-s-3 {width: 25%;}
-    .col-s-4 {width: 33.33%;}
-    .col-s-5 {width: 41.66%;}
-    .col-s-6 {width: 50%;}
-    .col-s-7 {width: 58.33%;}
-    .col-s-8 {width: 66.66%;}
-    .col-s-9 {width: 75%;}
-    .col-s-10 {width: 83.33%;}
-    .col-s-11 {width: 91.66%;}
-    .col-s-12 {width: 100%;}
-  }
-
-  /* Medium devices (landscape tablets, 768px and up) */
-  @media only screen and (min-width: 768px) {
-    .col-m-1 {width: 8.33%;}
-    .col-m-2 {width: 16.66%;}
-    .col-m-3 {width: 25%;}
-    .col-m-4 {width: 33.33%;}
-    .col-m-5 {width: 41.66%;}
-    .col-m-6 {width: 50%;}
-    .col-m-7 {width: 58.33%;}
-    .col-m-8 {width: 66.66%;}
-    .col-m-9 {width: 75%;}
-    .col-m-10 {width: 83.33%;}
-    .col-m-11 {width: 91.66%;}
-    .col-m-12 {width: 100%;}
-  }
-
-  /* Large devices (laptops/desktops, 992px and up) */
-  @media only screen and (min-width: 992px) {
-    .col-l-1 {width: 8.33%;}
-    .col-l-2 {width: 16.66%;}
-    .col-l-3 {width: 25%;}
-    .col-l-4 {width: 33.33%;}
-    .col-l-5 {width: 41.66%;}
-    .col-l-6 {width: 50%;}
-    .col-l-7 {width: 58.33%;}
-    .col-l-8 {width: 66.66%;}
-    .col-l-9 {width: 75%;}
-    .col-l-10 {width: 83.33%;}
-    .col-l-11 {width: 91.66%;}
-    .col-l-12 {width: 100%;}
-  }
-
-  /* Extra large devices (large laptops and desktops, 1200px and up) */
-  @media only screen and (min-width: 1200px) {
-    .col-xl-1 {width: 8.33%;}
-    .col-xl-2 {width: 16.66%;}
-    .col-xl-3 {width: 25%;}
-    .col-xl-4 {width: 33.33%;}
-    .col-xl-5 {width: 41.66%;}
-    .col-xl-6 {width: 50%;}
-    .col-xl-7 {width: 58.33%;}
-    .col-xl-8 {width: 66.66%;}
-    .col-xl-9 {width: 75%;}
-    .col-xl-10 {width: 83.33%;}
-    .col-xl-11 {width: 91.66%;}
-    .col-xl-12 {width: 100%;}
-  }
-
-  html {
-    font-family: "Montserrat", sans-serif;
-  }
-
-  body {
-    font-size: 100%;
-  }
-
-  fieldset {
-    border-style: none;
-    justify-content: center;
-    display:flex;
-  }
-
-  .center {
-    width: 50%; /* Set the desired width */
-    margin: 0 auto; /* Center horizontally */
-  }
-
-  .legend {
-    font-size: 1.25em;
-    font-weight: bold;
-    text-align: center;
-  }
-
-  .justify-content-center {
-    justify-content: center;
-    display:flex;
-  }
-
-  .justify-content-left {
-    justify-content: left;
-    display:flex;
-  }
-
-  .justify-content-right {
-    justify-content: right;
-    display:flex;
-  }
-
-  .float-center {
-    float: center;
-  }
-
-  .float-left {
-    float: left;
-  }
-
-  .align-center {
-    align-items: center;
-  }
-
-  .full-width {
-    width: 100%;
-    height: auto;
-  }
-
-  .donation-option {
-    display: none;
-  }
-
-  .donation-option + label {
-    border-style: none;
-    width: auto;
-    padding: 5px 5px;
-  }
-
-  .donation-option:checked + label {
-    background-color:rgb(217,2,2);
-    color:rgb(255,255,255);
-    border-style: none;
-  }
-
-  .submit-button {
-    font-weight: bold;
-    width: 100%;
-    max-width: 200px;
-    align-self: center;
-  }
-
-  .submit-button:disabled {
-    opacity: 0.5;
-  }
-
-  .pseudo-button {
-    background-color:rgb(25,48,143);
-    color:rgb(255,255,255);
-    padding:5px 5px;
-    font-size:14px;
-    text-align:center;
-    width:100%;
-    letter-spacing: 0.1em;
-    font-family: montserrat, sans-serif;
-    font-weight: 700;
-    text-transform: uppercase;
-    justify-content: center;
-    display:flex;
-    align-items: center;
-    cursor: pointer;
-    height: 100%;
-    min-height: 10px;
-    min-width: 200px;
-    max-width: 200px;
-    border-radius: 5px;
-  }
-
-  .submit-button:not([disabled]):hover, .pseudo-button:hover {
-    background-color:rgb(255,255,255);
-    color:rgb(25,48,143);
-    border:1px solid rgb(25,48,143);
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dylan's Campaign</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #0c2c84;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #e4002b;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        section {
+            padding: 20px;
+            margin: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+    </style>
 </head>
-
 <body>
-  <div class="row">
-    <div class="col-1">
-      <fieldset id="donation_options">
-        <legend class="legend">Select contribution amount</legend>
-        <div class="row full-width">
-          <div class="col-1 justify-content-center">
-            <input class="donation-option full-width" type="radio" id="donation_option_12" name="donation_option" value="12.00" checked>
-            <label class="pseudo-button full-width" for="donation_option_12">$12</label>
-          </div>
-          <div class="col-1 justify-content-center">
-            <input class="donation-option full-width" type="radio" id="donation_option_24" name="donation_option" value="24.00">
-            <label class="pseudo-button full-width" for="donation_option_24">$24</label>
-          </div>
-          <div class="col-1 justify-content-center">
-            <input class="donation-option full-width" type="radio" id="donation_option_other" name="donation_option" value="Other">
-            <label class="pseudo-button full-width" for="donation_option_other">OTHER ($500 MAX)</label>
-          </div>
-        </div>
-      </fieldset>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-1 justify-content-center">
-      <form id="donate_form" action="https://donate.stripe.com/test_bIY9ED8pm0Ln6NqbIJ" target="_blank">
-        <div class="row">
-          <div class="col-1 justify-content-center align-center">
-            <label style="font-size:1em;font-weight:700;padding:6px;" for="donation_amount">$</label>
-            <input style="font-size:1em" id="donation_amount" type="text" value="12.00" required/>
-            <label for="donation_amount" id="error_message" style="color:red;"></label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-1 justify-content-center">
-            <div>
-              <p>Contributions are not tax deductible. Contributions from business entities, including corporations, LLCs and LLPs, are prohibited. Individuals and most non-incorporated entities may contribute up to $500. Spouses and domestic partners may each contribute the maximum, even if their contributions are made from a joint account, but must submit separate contributions, each signed by the contributing spouse/partner. We cannot deposit your payment without your name, street address (no PO boxes), occupation, and employer. We cannot accept cash, cashier's checks, or money orders of $100 or more. San Francisco's contribution rules also include other prohibitions, including bans on contributions from city contractors and lobbyists. Finance professionals whose firms work with local governments should also consult their in-house counsel about applicable SEC rules.</p>
-              <p>Before proceeding with this transaction, you must confirm that the following statements are true and accurate:</p>
-              <ol>
-                <li>I am a U.S. citizen or lawfully admitted permanent resident (i.e., green card holder).</li>
-                <li>This contribution is made from my own funds, and funds are not being provided to me by another person or entity for the purpose of making this contribution.
-                <li>I am at least eighteen years old.</li>
-                <li>I am not an owner, director, officer, or named sub-contractor of any entity that is currently negotiating a contract with the City and County of San Francisco or of any entity that received such a contract within the last twelve months.</li>
-                <li>I am not a contract or expenditure lobbyist in the City of San Francisco.</li>
-                <li>My aggregated contribution(s) to this committee do not exceed $500.</li>
-                <li>This contribution is not from a corporation, limited liability company, or limited liability partnership.</li>
-                <li>I do not have a financial interest in a land use matter valued at $5,000,000 or more that is currently pending before the Board of Appeals, Board of Supervisors, Building Inspection Commission, Commission on Community Investment and Infrastructure, Historic Preservation Commission, Planning Commission, Port Commission, or Treasure Island Development Authority Board of Directors, nor have I had a financial interest in any such land use matter for which any of these boards or commissions have rendered a final decision or ruling within the last twelve months.</li>
-              </ol>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-1 justify-content-center">
-            <input type="checkbox" onclick="document.getElementById('donate_button').disabled=(this.checked==false)" id="confirmation_check">
-            <label for="confirmation_check">I confirm that the above statements are true and accurate.</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-1 justify-content-center">
-            <input class="pseudo-button submit-button" type="submit" value="DONATE" id="donate_button" disabled>
-            <input type="hidden" id="hidden_field" name="__prefilled_amount" value="">
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-
-<script>
-  const donationOptions = document.getElementsByClassName('donation-option');
-  var donationAmount = document.getElementById("donation_amount");
-  var inputErrorMessage = document.getElementById("error_message");
-  var MIN_ALLOWED_DONATION = 1;
-  var MAX_ALLOWED_DONATION = 500;
-
-  for (var i = 0; i < donationOptions.length; i++) {
-    var option = donationOptions[i];
-    const amount = option.id.split('_').slice(-1)[0];
-    if (amount == "other") {
-      option.addEventListener('click', () => {
-        var donationAmount = document.getElementById('donation_amount');
-        donationAmount.focus();
-        donationAmount.select();
-      });
-    } else {
-      option.addEventListener('click', () => {
-        updateDonationAmount(amount);
-      });
-    }
-  }
-
-  function updateDonationAmount(amount) {
-    var donationAmount = document.getElementById('donation_amount');
-    donationAmount.value = parseFloat(amount).toFixed(2);
-    var errorLabel = document.getElementById('error_message');
-    errorLabel.textContent = "";
-  }
-
-  document.getElementById("donate_form").addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const donationAmount = document.getElementById("donation_amount").value;
-    var errorLabel = document.getElementById('error_message');
-    if (donationAmount < 1.00) {
-      errorLabel.textContent = "Please enter a value between $" + MIN_ALLOWED_DONATION + " and $" + MAX_ALLOWED_DONATION + ".";
-      document.getElementById("donation_options").scrollIntoView();
-    } else {
-      errorLabel.textContent = "";
-      donationAmountForStripe = donationAmount*100;
-      document.getElementById("hidden_field").value = donationAmountForStripe.toFixed(0).toString();
-      event.srcElement.submit();
-      document.getElementById("donation_amount").value = "";
-    }
-  });
-
-  var donationAmount = document.getElementById('donation_amount');
-  donationAmount.addEventListener('change', (x) => {
-    const val = x.srcElement.value;
-    var errorLabel = document.getElementById('error_message');
-    if (isNaN(val)) {
-      x.srcElement.value = 0.00;
-      errorLabel.textContent = "Please enter a value between $" + MIN_ALLOWED_DONATION + " and $" + MAX_ALLOWED_DONATION + ".";
-    } else if (val < MIN_ALLOWED_DONATION) {
-      x.srcElement.value = 0.00;
-      errorLabel.textContent = "Please enter a value between $" + MIN_ALLOWED_DONATION + " and $" + MAX_ALLOWED_DONATION + ".";
-    } else if (val > MAX_ALLOWED_DONATION) {
-      errorLabel.textContent = "Reduced to maximum of $" + MAX_ALLOWED_DONATION + ".";
-      x.srcElement.value = MAX_ALLOWED_DONATION;
-    } else {
-      errorLabel.textContent = "";
-    }
-    x.srcElement.value = Number.parseFloat(x.srcElement.value).toFixed(2);
-    var donation_options = document.getElementsByName("donation_option");
-    for (var i = 0; i < donation_options.length; i++) {
-      const option = donationOptions[i];
-      const amount = option.id.split('_').slice(-1)[0];
-      if (x.srcElement.value == Number.parseFloat(amount).toFixed(2) || amount == "other") {
-        donation_options[i].checked = true;
-        break;
-      }
-    };
-  });
-</script>
+    <header>
+        <h1>Dylan's Campaign</h1>
+    </header>
+    <nav>
+        <a href="#about">About</a>
+        <a href="#platform">Platform</a>
+        <a href="#contact">Contact</a>
+    </nav>
+    <section id="about" class="content">
+        <h2>About Dylan</h2>
+        <p>Welcome to my campaign website! I am running for mayor of San Francisco in 2024 with a vision for a pragmatic and moderate approach that bridges the political divide.</p>
+        <p>Visit <a href="https://votedylan.com" target="_blank">votedylan.com</a> for more information.</p>
+    </section>
+    <section id="platform" class="content">
+        <h2>Platform</h2>
+        <p>My platform focuses on...</p>
+        <!-- Add your platform content here -->
+    </section>
+    <section id="contact" class="content">
+        <h2>Contact</h2>
+        <p>You can reach out to me at:</p>
+        <ul>
+            <li>Email: dylan@example.com</li>
+            <li>Phone: 123-456-7890</li>
+            <!-- Add more contact information as needed -->
+        </ul>
+    </section>
 </body>
 </html>
-
-<!-- Load Stripe.js on your website. -->
-<!-- <script src="https://js.stripe.com/v3"></script> -->
-
-<!-- Create a button that your customers click to complete their purchase. Customize the styling to suit your branding. -->
-<!-- <button
-  style="background-color:#6772e5;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em;cursor:pointer"
-  id="donation-amount-10"
-  onclick="document.getElementById('donation-amount').value='10.00'"
->
-  $10
-</button>
-
-<button
-  style="background-color:#6772e5;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em;cursor:pointer"
-  id="donation-amount-15"
-  onclick="document.getElementById('donation-amount').value='15.00'"
->
-  $15
-</button>
-<button
-  style="background-color:#6772e5;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em;cursor:pointer"
-  id="donation-amount-20"
-  onclick="document.getElementById('donation-amount').value='20.00'"
->
-  $20
-</button>
-<button
-  style="background-color:#6772e5;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em;cursor:pointer"
-  id="checkout-button-price_1PA6nSRqsUBRwjQJAdIIXmf6"
-  role="link"
-  type="button"
->
-  25
-</button>
-<br>
-<input type="text" id="donation-amount" value="25.00">
-
-<div id="error-message"></div>
-
-<script>
-  function changeInputValue() {
-    const inputValue = "New Value"; // Change this to the desired value
-    document.getElementById("myInput").value = inputValue;
-  }  
-</script>
-
-<script>
-(function() {
-    var stripe = Stripe('pk_test_51OtwyVRqsUBRwjQJmud4ju0BRkEgWOQR5VfbfC5eksvzoJwnCr4ot6tBzCK5ivqKRjWFAB6O4iJj8AL0NF5AEBgp008vGKVJI5');
-
-    var fifteenButton = document.getElementById('checkout-button-price_1PA6nSRqsUBRwjQJAdIIXmf6');
-    fifteenButton.addEventListener('click', function () {
-    /*
-     * When the customer clicks on the button, redirect
-     * them to Checkout.
-     */
-    stripe.redirectToCheckout({
-      lineItems: [{price: 'price_1PA6nSRqsUBRwjQJAdIIXmf6', quantity: 1}],
-      mode: 'payment',
-      /*
-       * Do not rely on the redirect to the successUrl for fulfilling
-       * purchases, customers may not always reach the success_url after
-       * a successful payment.
-       * Instead use one of the strategies described in
-       * https://docs.stripe.com/payments/checkout/fulfill-orders
-       */
-      successUrl: window.location.protocol + '//www.dylanforsfmayor.com',
-      cancelUrl: window.location.protocol + '//www.dylanforsfmayor.com',
-    })
-    .then(function (result) {
-      if (result.error) {
-        /*
-         * If `redirectToCheckout` fails due to a browser or network
-         * error, display the localized error message to your customer.
-         */
-        var displayError = document.getElementById('error-message');
-        displayError.textContent = result.error.message;
-      }
-    });
-
-    var twentyFiveButton = document.getElementById('checkout-button-price_1PA6nSRqsUBRwjQJAdIIXmf6');
-
-    twentyFiveButton.addEventListener('click', function () {
-    /*
-     * When the customer clicks on the button, redirect
-     * them to Checkout.
-     */
-    stripe.redirectToCheckout({
-      lineItems: [{price: 'price_1PA6nSRqsUBRwjQJAdIIXmf6', quantity: 1}],
-      mode: 'payment',
-      /*
-       * Do not rely on the redirect to the successUrl for fulfilling
-       * purchases, customers may not always reach the success_url after
-       * a successful payment.
-       * Instead use one of the strategies described in
-       * https://docs.stripe.com/payments/checkout/fulfill-orders
-       */
-      successUrl: window.location.protocol + '//www.dylanforsfmayor.com',
-      cancelUrl: window.location.protocol + '//www.dylanforsfmayor.com',
-    })
-    .then(function (result) {
-      if (result.error) {
-        /*
-         * If `redirectToCheckout` fails due to a browser or network
-         * error, display the localized error message to your customer.
-         */
-        var displayError = document.getElementById('error-message');
-        displayError.textContent = result.error.message;
-      }
-    });
-
-  });
-})();
-</script>
-
-<script async
-  src="https://js.stripe.com/v3/buy-button.js">
-</script>
-
-<stripe-buy-button
-  buy-button-id="buy_btn_1PAdWZRqsUBRwjQJDl2eXkJQ"
-  publishable-key="pk_test_51OtwyVRqsUBRwjQJmud4ju0BRkEgWOQR5VfbfC5eksvzoJwnCr4ot6tBzCK5ivqKRjWFAB6O4iJj8AL0NF5AEBgp008vGKVJI5"
->
-</stripe-buy-button>
--->
-
-<!-- ---
-<head>
-  <meta http-equiv="refresh" content="0; URL=http://www.google.com/" />
-</ head>
-<body>
-  <p> Under Construction.</p>
-</ body>
---- -->
-
-<!-- ---
-layout: post
-title: Blogging Like a Hacker
---- -->
-
-<!-- ---
-Logo | Twitter | Facebook
-Home | About Dylan | Platform
-
-Left Aligned:
-Slogan: Propelling SF into the Future (change later) | Using science and policy to fight for a better future | Making the city run more efficiently by modernizing city government and eliminating corruption and waste | A Better SF is Possible
-Call to action: Let's fix San Francisco's government and build a community where everyone can flourish.
-
-Right Aligned:
-Photo
-
-Donate Button | Stay Updated Button
-
-Video about DHS and why running
-
-Three Pillars:
-1. Fix the System.
-2. House the Unhoused.
-3. Restore Safety to the Streets.
-
-[Reiterate the three pillars]
-[Explain how they'll be addressed ("We will")]
-... San Francisco's government has become inefficient and ineffective. For too long, city leaders have bickered and undercut each other. This is an emergency. SF is one of the most beautiful cities in the world, but for too long we've allowed untold suffering to occur on our streets.
-
-
-Introduction:
-"A New Leader for a Better San Francisco"
-[Dylan is an innovator with experience...]
-
-We're running a clean and independent campaign. No corporate PAC Mone. No fossil fuel money. Follow us to join our grassroots movement.
-
-Text boxes to sign up for email list. | Stay Update Button
-
-Endorsements along bottom
-
-Bottom of Page.
-
-==========
-Meet Dylan
-[Blurb / Slogan "Dylan will fight to fix..."]
-
-Intro
-"Dylan is an innovator with experience..."
-
-[What do I want to share with people about who I am]
-Came from a middle class family, worked hard, got some lucky opportunities.
-Mother is a social workerm, instilled values in me to give back to the community. Jewish traditions and culture placed importance on education and service to the community.
-[Why am I doing this]
-I've never thought of myself as a politician.
-Realizing how lucky I am, how many opportunities I was given.
-Have the responsibility to pay it forward.
-
-==========
-Platform Page
-
-Why I'm running:
-My name is Dylan Hirsch-Shell and I'm running for Mayor of San Francisco.
-[write something good]
-
-[Top Issue #1]:
-[The Problem]
-[Solutions]
-	[Bold Idea]
-	[Immediate Action]
-	[Long Term Reform]
-
-Top Issue #2:
-[]
-
-Top Issue #3:
-
-
-
-<form action="/action_page.php">
-    <label for="fname">Twitter handle:</label><br>
-    <input type="text" id="fname" name="fname" value=""><br>
-    <input type="submit" value="Submit">
-  </form>
---- -->
