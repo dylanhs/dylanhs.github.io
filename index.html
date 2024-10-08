@@ -1,568 +1,767 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-  * {
-    box-sizing: border-box;
-  }
-
-  .row::after {
-    content: "";
-    clear: both;
-    display: table;
-  }
-
-  [class*="col-"] {
-    float: left;
-    padding: 5px;
-  }
-
-  /* For mobile phones: */
-  [class*="col-"] {
-    width: 100%;
-  }
-
-  /* Small devices (portrait tablets and large phones, 600px and up) */
-  @media only screen and (min-width: 600px) {
-    .col-s-1 {width: 8.33%;}
-    .col-s-2 {width: 16.66%;}
-    .col-s-3 {width: 25%;}
-    .col-s-4 {width: 33.33%;}
-    .col-s-5 {width: 41.66%;}
-    .col-s-6 {width: 50%;}
-    .col-s-7 {width: 58.33%;}
-    .col-s-8 {width: 66.66%;}
-    .col-s-9 {width: 75%;}
-    .col-s-10 {width: 83.33%;}
-    .col-s-11 {width: 91.66%;}
-    .col-s-12 {width: 100%;}
-  }
-
-  /* Medium devices (landscape tablets, 768px and up) */
-  @media only screen and (min-width: 768px) {
-    .col-m-1 {width: 8.33%;}
-    .col-m-2 {width: 16.66%;}
-    .col-m-3 {width: 25%;}
-    .col-m-4 {width: 33.33%;}
-    .col-m-5 {width: 41.66%;}
-    .col-m-6 {width: 50%;}
-    .col-m-7 {width: 58.33%;}
-    .col-m-8 {width: 66.66%;}
-    .col-m-9 {width: 75%;}
-    .col-m-10 {width: 83.33%;}
-    .col-m-11 {width: 91.66%;}
-    .col-m-12 {width: 100%;}
-  }
-
-  /* Large devices (laptops/desktops, 992px and up) */
-  @media only screen and (min-width: 992px) {
-    .col-l-1 {width: 8.33%;}
-    .col-l-2 {width: 16.66%;}
-    .col-l-3 {width: 25%;}
-    .col-l-4 {width: 33.33%;}
-    .col-l-5 {width: 41.66%;}
-    .col-l-6 {width: 50%;}
-    .col-l-7 {width: 58.33%;}
-    .col-l-8 {width: 66.66%;}
-    .col-l-9 {width: 75%;}
-    .col-l-10 {width: 83.33%;}
-    .col-l-11 {width: 91.66%;}
-    .col-l-12 {width: 100%;}
-  }
-
-  /* Extra large devices (large laptops and desktops, 1200px and up) */
-  @media only screen and (min-width: 1200px) {
-    .col-xl-1 {width: 8.33%;}
-    .col-xl-2 {width: 16.66%;}
-    .col-xl-3 {width: 25%;}
-    .col-xl-4 {width: 33.33%;}
-    .col-xl-5 {width: 41.66%;}
-    .col-xl-6 {width: 50%;}
-    .col-xl-7 {width: 58.33%;}
-    .col-xl-8 {width: 66.66%;}
-    .col-xl-9 {width: 75%;}
-    .col-xl-10 {width: 83.33%;}
-    .col-xl-11 {width: 91.66%;}
-    .col-xl-12 {width: 100%;}
-  }
-
-  html {
-    font-family: "Montserrat", sans-serif;
-  }
-
-  body {
-    font-size: 100%;
-  }
-
-  fieldset {
-    border-style: none;
-    justify-content: center;
-    display:flex;
-  }
-
-  .center {
-    width: 50%; /* Set the desired width */
-    margin: 0 auto; /* Center horizontally */
-  }
-
-  .legend {
-    font-size: 1.25em;
-    font-weight: bold;
-    text-align: center;
-  }
-
-  .justify-content-center {
-    justify-content: center;
-    display:flex;
-  }
-
-  .justify-content-left {
-    justify-content: left;
-    display:flex;
-  }
-
-  .justify-content-right {
-    justify-content: right;
-    display:flex;
-  }
-
-  .float-center {
-    float: center;
-  }
-
-  .float-left {
-    float: left;
-  }
-
-  .align-center {
-    align-items: center;
-  }
-
-  .full-width {
-    width: 100%;
-    height: auto;
-  }
-
-  .donation-option {
-    display: none;
-  }
-
-  .donation-option + label {
-    border-style: none;
-    width: auto;
-    padding: 5px 5px;
-  }
-
-  .donation-option:checked + label {
-    background-color:rgb(217,2,2);
-    color:rgb(255,255,255);
-    border-style: none;
-  }
-
-  .submit-button {
-    font-weight: bold;
-    width: 100%;
-    max-width: 200px;
-    align-self: center;
-  }
-
-  .submit-button:disabled {
-    opacity: 0.5;
-  }
-
-  .pseudo-button {
-    background-color:rgb(25,48,143);
-    color:rgb(255,255,255);
-    padding:5px 5px;
-    font-size:14px;
-    text-align:center;
-    width:100%;
-    letter-spacing: 0.1em;
-    font-family: montserrat, sans-serif;
-    font-weight: 700;
-    text-transform: uppercase;
-    justify-content: center;
-    display:flex;
-    align-items: center;
-    cursor: pointer;
-    height: 100%;
-    min-height: 10px;
-    min-width: 200px;
-    max-width: 200px;
-    border-radius: 5px;
-  }
-
-  .submit-button:not([disabled]):hover, .pseudo-button:hover {
-    background-color:rgb(255,255,255);
-    color:rgb(25,48,143);
-    border:1px solid rgb(25,48,143);
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UBI Calculator</title>
+    <link href="https://unpkg.com/intro.js/minified/introjs.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input[type="range"] {
+            width: 100%;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .result {
+            font-weight: bold;
+        }
+        #net-revenue {
+            font-weight: bold;
+        }
+        .negative {
+            color: red;
+        }
+        .positive {
+            color: green;
+            font-weight: bold;
+        }
+        #distribution {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
 </head>
+<body onload="startTutorial()">
 
-<body>
-  <div class="row">
-    <div class="col-1">
-      <fieldset id="donation_options">
-        <legend class="legend">Select contribution amount</legend>
-        <div class="row full-width">
-          <div class="col-1 justify-content-center">
-            <input class="donation-option full-width" type="radio" id="donation_option_12" name="donation_option" value="12.00" checked>
-            <label class="pseudo-button full-width" for="donation_option_12">$12</label>
-          </div>
-          <div class="col-1 justify-content-center">
-            <input class="donation-option full-width" type="radio" id="donation_option_24" name="donation_option" value="24.00">
-            <label class="pseudo-button full-width" for="donation_option_24">$24</label>
-          </div>
-          <div class="col-1 justify-content-center">
-            <input class="donation-option full-width" type="radio" id="donation_option_other" name="donation_option" value="Other">
-            <label class="pseudo-button full-width" for="donation_option_other">OTHER ($500 MAX)</label>
-          </div>
-        </div>
-      </fieldset>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-1 justify-content-center">
-      <form id="donate_form" action="https://donate.stripe.com/test_bIY9ED8pm0Ln6NqbIJ" target="_blank">
-        <div class="row">
-          <div class="col-1 justify-content-center align-center">
-            <label style="font-size:1em;font-weight:700;padding:6px;" for="donation_amount">$</label>
-            <input style="font-size:1em" id="donation_amount" type="text" value="12.00" required/>
-            <label for="donation_amount" id="error_message" style="color:red;"></label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-1 justify-content-center">
-            <div>
-              <p>Contributions are not tax deductible. Contributions from business entities, including corporations, LLCs and LLPs, are prohibited. Individuals and most non-incorporated entities may contribute up to $500. Spouses and domestic partners may each contribute the maximum, even if their contributions are made from a joint account, but must submit separate contributions, each signed by the contributing spouse/partner. We cannot deposit your payment without your name, street address (no PO boxes), occupation, and employer. We cannot accept cash, cashier's checks, or money orders of $100 or more. San Francisco's contribution rules also include other prohibitions, including bans on contributions from city contractors and lobbyists. Finance professionals whose firms work with local governments should also consult their in-house counsel about applicable SEC rules.</p>
-              <p>Before proceeding with this transaction, you must confirm that the following statements are true and accurate:</p>
-              <ol>
-                <li>I am a U.S. citizen or lawfully admitted permanent resident (i.e., green card holder).</li>
-                <li>This contribution is made from my own funds, and funds are not being provided to me by another person or entity for the purpose of making this contribution.
-                <li>I am at least eighteen years old.</li>
-                <li>I am not an owner, director, officer, or named sub-contractor of any entity that is currently negotiating a contract with the City and County of San Francisco or of any entity that received such a contract within the last twelve months.</li>
-                <li>I am not a contract or expenditure lobbyist in the City of San Francisco.</li>
-                <li>My aggregated contribution(s) to this committee do not exceed $500.</li>
-                <li>This contribution is not from a corporation, limited liability company, or limited liability partnership.</li>
-                <li>I do not have a financial interest in a land use matter valued at $5,000,000 or more that is currently pending before the Board of Appeals, Board of Supervisors, Building Inspection Commission, Commission on Community Investment and Infrastructure, Historic Preservation Commission, Planning Commission, Port Commission, or Treasure Island Development Authority Board of Directors, nor have I had a financial interest in any such land use matter for which any of these boards or commissions have rendered a final decision or ruling within the last twelve months.</li>
-              </ol>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-1 justify-content-center">
-            <input type="checkbox" onclick="document.getElementById('donate_button').disabled=(this.checked==false)" id="confirmation_check">
-            <label for="confirmation_check">I confirm that the above statements are true and accurate.</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-1 justify-content-center">
-            <input class="pseudo-button submit-button" type="submit" value="DONATE" id="donate_button" disabled>
-            <input type="hidden" id="hidden_field" name="__prefilled_amount" value="">
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
+<h1>Universal Basic Income (UBI) Calculator for San Francisco</h1>
+
+<h2>The Plan: How Much and How To Fund It</h2>
+
+<div class="section">
+    <h3>Income Distribution and Taxable Land Area</h3>
+    <button onclick="restoreDistributionDefaults()">Restore Defaults</button>
+    <br>
+    <section data-intro="Drag the slider to adjust the total taxable land area in San Francisco, if different from the default.">
+      <label for="land-area">Total Taxable Land Area (sqft): </label>
+      <input type="range" id="land-area" min="0" max="1000000000" value="854095454.39" step="1000" oninput="updateLandAreaDisplay()">
+      <span id="land-area-display">854,095,454.39</span> sqft
+    </section>
+    <br>
+    <section data-intro="Drag the slider to adjust the percentage of children in San Francisco, if different from the default.">
+      <label for="percentage-children">Percentage of Children: </label>
+      <input type="range" id="percentage-children" min="0" max="100" value="13.6" step="0.1" oninput="updatePopulationDisplay()">
+      <span id="percentage-children-display">13.6</span>%
+    </section>
+    <br>
+    <p>Total Adult Population: <span id="total-adults">0</span></p>
+    <p>Total Child Population: <span id="total-children">0</span></p>
+    <p>Total Population: <span id="total-population">0</span></p>
+    <p>Median Income: $<span id="median-income">0</span></p>
+    <p>Per Capita Income: $<span id="per-capita-income">0</span></p>
+    <section data-intro="Drag each point on the curve up or down to adjust the income distribution in San Francisco, if different from the default.">
+	  <canvas id="distribution"></canvas>
+    </section>
 </div>
 
+<div class="section">
+    <h3>UBI Settings</h3>
+    <button onclick="restoreUBIDefaults()">Restore Defaults</button>
+    <br>
+    <section data-intro="Set the desired UBI level per adult (note: default of $50k is a living wage for an individual adult in San Francisco).">
+      <label for="ubi-adult">UBI per Adult per year: </label>
+      <input type="range" id="ubi-adult" min="0" max="100000" value="50000" step="1000" oninput="updateUBIDisplay()">
+      $<span id="ubi-adult-display">50,000</span>
+    </section>
+    <br>
+    <section data-intro="Set the desired UBI level per child (note: default of $15k is the additional living cost per child in San Francisco).">
+      <label for="ubi-child">UBI per Child per year: </label>
+      <input type="range" id="ubi-child" min="0" max="50000" value="15000" step="1000" oninput="updateUBIDisplay()">
+      $<span id="ubi-child-display">15,000</span>
+    </section>
+    <br>
+    <section data-intro="Set the desired clawback tax rate (note: a renter can earn up to the UBI amount divided by the clawback rate plus the income tax rate before paying net taxes into the system, aka $150k for a UBI of $50k, a clawback rate of 30%, and an income tax rate of 3.3%).">
+      <label for="clawback-rate">Clawback Tax Rate: </label>
+      <input type="range" id="clawback-rate" min="0" max="100" value="30" step="1" oninput="updateClawbackDisplay()">
+      <span id="clawback-display">30</span>%
+    </section>
+    <br>
+    <h4>Total UBI Cost: $<span id="total-cost">0</span></h4>
+</div>
 
+<div class="section">
+    <section data-intro="Adjust revenue sources from defaults, if desired.">
+      <h3>Funding Sources</h3>
+      <button onclick="restoreFundingDefaults()">Restore Defaults</button>
+      <br>
+      <label for="cost-savings">Cost Savings: </label>
+      <input type="range" id="cost-savings" min="0" max="2000000000" value="800000000" step="100000" oninput="updateFundingDisplays()">
+      $<span id="cost-savings-display">800,000,000</span>
+      <br>
+      <label for="sales-tax">Increase in Sales Tax Revenues: </label>
+      <input type="range" id="sales-tax" min="0" max="2000000000" value="10000000" step="100000" oninput="updateFundingDisplays()">
+      $<span id="sales-tax-display">10,000,000</span>
+      <br>
+      <label for="pollution-taxes">Revenue from Pollution Taxes: </label>
+      <input type="range" id="pollution-taxes" min="0" max="2000000000" value="657000000" step="100000" oninput="updateFundingDisplays()">
+      $<span id="pollution-taxes-display">657,000,000</span>
+      <br>
+      <label for="land-tax">Land Value Tax Rate: </label>
+      <input type="range" id="land-tax" min="0" max="50" value="15.36" step="0.01" oninput="updateFundingDisplays()">
+      $<span id="land-tax-display">15.36</span>/sqft
+      <br>
+      <label for="income-tax">Income Tax Rate: </label>
+      <input type="range" id="income-tax" min="0" max="50" value="3.3" step="0.1" oninput="updateFundingDisplays()">
+      <span id="income-tax-display">3.3</span>%
+    </section>
+    <br>
+    <h4>Total Revenue: $<span id="total-revenue">0</span></h4>
+    <h4 id="net-revenue">Net Revenue: $<span id="net-revenue-amount">0</span></h4>
+</div>
+
+<h2>Individual Household Impact</h2>
+<button onclick="restoreIndividualDefaults()">Restore Defaults</button>
+<section data-intro="Enter the number of adults and children in your household here.">
+    <h3>Household Info</h3>
+    <label>Number of Adults:
+        <input type="number" id="household_adults" value="1" min="1" />
+    </label>
+    <br>
+    <label>Number of Children:
+        <input type="number" id="household_children" value="0" min="0" />
+    </label>
+</section>
+
+<section data-intro="Adjust your household income using the slider or input field.">
+    <h3>Household Income</h3>
+    <div class="section">
+        <label>Income: $<span id="household_income_display">136,689</span></label>
+        <input type="range" id="household_income" min="0" max="273378" value="136689" step="1000" />
+        <input type="number" id="household_income_input" value="136689" min="0" />
+    </div>
+</section>
+
+<section data-intro="If you're a renter, check the box. Otherwise, adjust your land size here. You can fetch your lot size using your parcel number or address.">
+    <h3>Property Info</h3>
+    <label><input type="checkbox" id="renter" /> I am a renter</label>
+    <br>
+    <label>Parcel Number:
+        <input type="text" id="parcel_number" placeholder="e.g., 0762026"/>
+    </label>
+    <button id="fetch_area">Fetch Lot Area</button>
+    <br>
+    <label>Address:
+        <input type="text" id="address_input" placeholder="e.g., 601 Van Ness Ave" />
+    </label>
+    <button id="fetch_area_address">Fetch Lot Area by Address</button>
+    <br>
+    <div class="section">
+      <label>Land Size (sqft): 
+          <span id="land_size_display">2,750</span>
+          <input type="range" id="land_size" min="0" max="30000" value="2750" step="1" />
+          <input type="number" id="land_size_input" value="2750" min="0" />
+      </label>
+    </div>
+</section>
+
+<section data-intro="Here are your results! The UBI you receive is displayed, along with taxes and clawback amounts.">
+    <h3>Individual Household Impact Results</h3>
+    <div>Total UBI: <span id="total_ubi" class="result">$0.00</span></div>
+    <div>Clawback Amount: <span id="individual_clawback" class="result negative">-$0.00</span></div>
+    <div>Income Tax: <span id="income_tax" class="result negative">-$0.00</span></div>
+    <div>Land Tax: <span id="land_tax" class="result negative">-$0.00</span></div>
+    <br>
+    <div>Net Income Change: <span id="net_income_change" class="result">$0.00</span></div>
+    <br>
+    <div>Net Income After UBI and Taxes: <span id="net_income" class="result">$0.00</span></div>
+</section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
 <script>
-  const donationOptions = document.getElementsByClassName('donation-option');
-  var donationAmount = document.getElementById("donation_amount");
-  var inputErrorMessage = document.getElementById("error_message");
-  var MIN_ALLOWED_DONATION = 1;
-  var MAX_ALLOWED_DONATION = 500;
+    // Original income distribution data
+    const originalIncomeDistributionData = [
+        { weight: 10000, income: 0 },
+        { weight: 6000, income: 3000 },
+        { weight: 7000, income: 6000 },
+        { weight: 8000, income: 9000 },
+        { weight: 9000, income: 12000 },
+        { weight: 10000, income: 15000 },
+        { weight: 11000, income: 18000 },
+        { weight: 12000, income: 21000 },
+        { weight: 13000, income: 24000 },
+        { weight: 14000, income: 27000 },
+        { weight: 16000, income: 30000 },
+        { weight: 18000, income: 35000 },
+        { weight: 20000, income: 40000 },
+        { weight: 22000, income: 50000 },
+        { weight: 24600, income: 60000 },
+        { weight: 45000, income: 70000 },
+        { weight: 89500, income: 80000 },
+        { weight: 91000, income: 90000 },
+        { weight: 89500, income: 100000 },
+        { weight: 80000, income: 150000 },
+        { weight: 70000, income: 200000 },
+        { weight: 20500, income: 300000 },
+        { weight: 7400, income: 400000 },
+        { weight: 5000, income: 500000 },
+        { weight: 500, income: 1000000 },
+        { weight: 50, income: 10000000 },
+        { weight: 5, income: 100000000 },
+        { weight: 0, income: 1000000000 }
+    ];
 
-  for (var i = 0; i < donationOptions.length; i++) {
-    var option = donationOptions[i];
-    const amount = option.id.split('_').slice(-1)[0];
-    if (amount == "other") {
-      option.addEventListener('click', () => {
-        var donationAmount = document.getElementById('donation_amount');
-        donationAmount.focus();
-        donationAmount.select();
-      });
-    } else {
-      option.addEventListener('click', () => {
-        updateDonationAmount(amount);
-      });
+    // Copy of income distribution data for manipulation
+    let incomeDistributionData = JSON.parse(JSON.stringify(originalIncomeDistributionData));
+
+    // Total taxable land area
+    let defaultLandArea = 854095454.39;
+
+    let totalPopulation = incomeDistributionData.reduce((sum, data) => sum + data.weight, 0);
+
+    // Update population display
+    document.getElementById('total-population').innerText = totalPopulation;
+
+    // Function to calculate median income
+    function calculateMedianIncome() {
+        const sortedData = incomeDistributionData.flatMap((data, index) =>
+            Array(data.weight).fill(data.income) // Create an array of income repeated by weight
+        ).sort((a, b) => a - b); // Sort the income array
+
+        const midIndex = Math.floor(sortedData.length / 2);
+        let median;
+
+        if (sortedData.length % 2 === 0) {
+            median = (sortedData[midIndex - 1] + sortedData[midIndex]) / 2; // Average of two middle values
+        } else {
+            median = sortedData[midIndex]; // Middle value
+        }
+
+        return median;
     }
-  }
 
-  function updateDonationAmount(amount) {
-    var donationAmount = document.getElementById('donation_amount');
-    donationAmount.value = parseFloat(amount).toFixed(2);
-    var errorLabel = document.getElementById('error_message');
-    errorLabel.textContent = "";
-  }
-
-  document.getElementById("donate_form").addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const donationAmount = document.getElementById("donation_amount").value;
-    var errorLabel = document.getElementById('error_message');
-    if (donationAmount < 1.00) {
-      errorLabel.textContent = "Please enter a value between $" + MIN_ALLOWED_DONATION + " and $" + MAX_ALLOWED_DONATION + ".";
-      document.getElementById("donation_options").scrollIntoView();
-    } else {
-      errorLabel.textContent = "";
-      donationAmountForStripe = donationAmount*100;
-      document.getElementById("hidden_field").value = donationAmountForStripe.toFixed(0).toString();
-      event.srcElement.submit();
-      document.getElementById("donation_amount").value = "";
+    // Function to calculate per capita income
+    function calculatePerCapitaIncome() {
+        const totalIncome = incomeDistributionData.reduce((sum, data) => sum + (data.income * data.weight), 0);
+        const totalPopulation = parseInt(document.getElementById('total-population').innerText.replace(/,/g, ''));
+        return totalPopulation > 0 ? totalIncome / totalPopulation : 0; // Prevent division by zero
     }
-  });
 
-  var donationAmount = document.getElementById('donation_amount');
-  donationAmount.addEventListener('change', (x) => {
-    const val = x.srcElement.value;
-    var errorLabel = document.getElementById('error_message');
-    if (isNaN(val)) {
-      x.srcElement.value = 0.00;
-      errorLabel.textContent = "Please enter a value between $" + MIN_ALLOWED_DONATION + " and $" + MAX_ALLOWED_DONATION + ".";
-    } else if (val < MIN_ALLOWED_DONATION) {
-      x.srcElement.value = 0.00;
-      errorLabel.textContent = "Please enter a value between $" + MIN_ALLOWED_DONATION + " and $" + MAX_ALLOWED_DONATION + ".";
-    } else if (val > MAX_ALLOWED_DONATION) {
-      errorLabel.textContent = "Reduced to maximum of $" + MAX_ALLOWED_DONATION + ".";
-      x.srcElement.value = MAX_ALLOWED_DONATION;
-    } else {
-      errorLabel.textContent = "";
+    // Chart.js configuration
+    const ctx = document.getElementById('distribution').getContext('2d');
+    const distributionChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: incomeDistributionData.map(data => data.income),
+            datasets: [{
+                label: 'Income Distribution',
+                data: incomeDistributionData.map(data => data.weight),
+                fill: false,
+                borderColor: 'blue',
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'logarithmic',
+                    title: {
+                        display: true,
+                        text: 'Income Level ($)'
+                    }
+	            },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Number of People'
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            // Add a dollar sign to the title
+                            return '$' + tooltipItems[0].label.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                        },
+                        label: function(tooltipItem) {
+                            // Add commas to the number formatting
+                            return tooltipItem.raw.toLocaleString() + ' adults';
+                        }
+                    }
+                }
+            }
+		}
+    });
+
+    // Add a default for the percentage of children
+    let defaultPercentageChildren = 13.6;
+
+    function updatePopulationDisplay() {
+        const percentageChildren = parseFloat(document.getElementById('percentage-children').value);
+        document.getElementById('percentage-children-display').innerText = percentageChildren;
+
+        // Calculate total adults
+        let totalAdults = incomeDistributionData.reduce((sum, data) => sum + data.weight, 0);
+
+        // Calculate total population based on adults and percentage of children
+        let totalPopulation = totalAdults / (1 - (percentageChildren / 100));
+        let totalChildren = totalPopulation * (percentageChildren / 100);
+
+        // Update the population displays
+        document.getElementById('total-adults').innerText = totalAdults.toLocaleString();
+        document.getElementById('total-children').innerText = Math.round(totalChildren).toLocaleString();
+        document.getElementById('total-population').innerText = Math.round(totalPopulation).toLocaleString();
+
+        updateMedianIncomeDisplay();
+        updatePerCapitaIncomeDisplay();
+
+        // Call the UBI cost update since population affects UBI cost
+        updateUBICost();
     }
-    x.srcElement.value = Number.parseFloat(x.srcElement.value).toFixed(2);
-    var donation_options = document.getElementsByName("donation_option");
-    for (var i = 0; i < donation_options.length; i++) {
-      const option = donationOptions[i];
-      const amount = option.id.split('_').slice(-1)[0];
-      if (x.srcElement.value == Number.parseFloat(amount).toFixed(2) || amount == "other") {
-        donation_options[i].checked = true;
-        break;
-      }
-    };
-  });
+
+    // Function to handle dragging points
+    let draggingPointIndex = null;
+
+    function updateChartWithAnimation() {
+        requestAnimationFrame(() => {
+            distributionChart.update();
+        });
+    }
+
+    function updateIncomeDistribution(event) {
+        if (draggingPointIndex === null) return;
+
+        const mouseY = event.offsetY;
+
+        // Get the new number of people from the y-coordinate, rounded to the nearest whole person
+        const people = Math.round(distributionChart.scales.y.getValueForPixel(mouseY));
+
+        // Ensure people does not go below 0
+        const newWeight = Math.max(people, 0);
+
+        // Update the weight for the currently dragging point
+        incomeDistributionData[draggingPointIndex].weight = newWeight;
+
+        // Update the chart data and re-render
+        distributionChart.data.datasets[0].data = incomeDistributionData.map(data => data.weight);
+        updateChartWithAnimation();
+
+        let totalPopulation = incomeDistributionData.reduce((sum, data) => sum + data.weight, 0);
+
+        // Update population display
+        document.getElementById('total-population').innerText = totalPopulation;
+
+		updatePopulationDisplay(); // Update population display after dragging
+    }
+
+    ctx.canvas.addEventListener('mousedown', (event) => {
+        const mouseX = event.offsetX;
+        const mouseY = event.offsetY;
+
+        incomeDistributionData.forEach((data, index) => {
+            const incomeValue = data.income;
+            const people = data.weight;
+            const pointX = distributionChart.scales.x.getPixelForValue(incomeValue);
+            const pointY = distributionChart.scales.y.getPixelForValue(people);
+
+            const pointHit = Math.abs(mouseX - pointX) < 10 && Math.abs(mouseY - pointY) < 10;
+            if (pointHit) {
+                draggingPointIndex = index;
+            }
+        });
+    });
+
+    ctx.canvas.addEventListener('mousemove', (event) => {
+        if (draggingPointIndex !== null) {
+            updateIncomeDistribution(event);
+        }
+    });
+
+    ctx.canvas.addEventListener('mouseup', () => {
+        draggingPointIndex = null;
+    });
+
+    ctx.canvas.addEventListener('mouseout', () => {
+        draggingPointIndex = null;
+    });
+
+    // UBI Functions
+    function formatDollar(value) {
+        return Math.round(value).toLocaleString();
+    }
+
+    function updateUBIDisplay() {
+        const ubiAdultValue = document.getElementById('ubi-adult').value;
+        const ubiChildValue = document.getElementById('ubi-child').value;
+        document.getElementById('ubi-adult-display').innerText = formatDollar(ubiAdultValue);
+        document.getElementById('ubi-child-display').innerText = formatDollar(ubiChildValue);
+        updateUBICost();
+    }
+
+    function updateClawbackDisplay() {
+        const clawbackValue = document.getElementById('clawback-rate').value;
+        document.getElementById('clawback-display').innerText = clawbackValue;
+        updateUBICost();
+    }
+
+    function updateFundingDisplays() {
+        const costSavingsValue = document.getElementById('cost-savings').value;
+        document.getElementById('cost-savings-display').innerText = formatDollar(costSavingsValue);
+
+        const salesTaxValue = document.getElementById('sales-tax').value;
+        document.getElementById('sales-tax-display').innerText = formatDollar(salesTaxValue);
+
+        const pollutionTaxesValue = document.getElementById('pollution-taxes').value;
+        document.getElementById('pollution-taxes-display').innerText = formatDollar(pollutionTaxesValue);
+
+        const landTaxValue = document.getElementById('land-tax').value;
+        document.getElementById('land-tax-display').innerText = landTaxValue;
+
+        const incomeTaxValue = document.getElementById('income-tax').value;
+        document.getElementById('income-tax-display').innerText = incomeTaxValue;
+
+        updateRevenue(); // Update revenue after updating funding displays
+    }
+
+    function updateUBICost() {
+        const ubiAdult = parseInt(document.getElementById('ubi-adult').value);
+        const ubiChild = parseInt(document.getElementById('ubi-child').value);
+        const clawbackRate = parseFloat(document.getElementById('clawback-rate').value) / 100;
+
+        const totalAdults = parseInt(document.getElementById('total-adults').innerText.replace(/,/g, ''));
+        const totalChildren = parseInt(document.getElementById('total-children').innerText.replace(/,/g, ''));
+
+        // Calculate total UBI cost for adults considering clawback
+        const totalCostAdults = incomeDistributionData.reduce((sum, data) => {
+            const clawbackAmount = Math.min(data.income * clawbackRate, ubiAdult);
+            return sum + (ubiAdult - clawbackAmount) * data.weight;
+        }, 0);
+
+        // Calculate UBI cost for children (assume half of children get full UBI)
+        const totalCostChildren = totalChildren * ubiChild * 0.50;
+
+        // Total cost = Adults UBI cost + Children UBI cost
+        const totalCost = totalCostAdults + totalCostChildren;
+
+        // Update total cost display
+        document.getElementById('total-cost').innerText = formatDollar(totalCost);
+        updateRevenue();
+    }
+
+	function updateMedianIncomeDisplay() {
+        const medianIncome = calculateMedianIncome();
+        document.getElementById('median-income').innerText = medianIncome.toLocaleString();
+    }
+
+    function updatePerCapitaIncomeDisplay() {
+        const perCapitaIncome = calculatePerCapitaIncome();
+        document.getElementById('per-capita-income').innerText = perCapitaIncome.toLocaleString();
+    }
+
+	// Update the land area display when slider changes
+    function updateLandAreaDisplay() {
+        const landAreaValue = document.getElementById('land-area').value;
+        document.getElementById('land-area-display').innerText = parseFloat(landAreaValue).toLocaleString();
+        updateRevenue();
+    }
+
+	function updateRevenue() {
+        // Calculate total revenue
+        const costSavings = parseInt(document.getElementById('cost-savings').value);
+        const salesTaxRevenue = parseInt(document.getElementById('sales-tax').value);
+        const pollutionTaxRevenue = parseInt(document.getElementById('pollution-taxes').value);
+
+        // Total taxable land area in square feet
+        const totalTaxableLandArea = parseFloat(document.getElementById('land-area').value);
+        const landTaxRate = parseFloat(document.getElementById('land-tax').value);
+
+        // Calculate land tax revenue based on land tax rate
+        const landTaxRevenue = landTaxRate * totalTaxableLandArea;
+
+        // Calculate total income for income tax revenue
+        const totalIncome = incomeDistributionData.reduce((sum, data) => {
+            return sum + (data.income * data.weight);
+        }, 0);
+
+        const incomeTaxRate = parseFloat(document.getElementById('income-tax').value);
+        const incomeTaxRevenue = (incomeTaxRate / 100) * totalIncome;
+
+        // Total revenue calculation
+        const totalRevenue = costSavings + salesTaxRevenue + pollutionTaxRevenue + landTaxRevenue + incomeTaxRevenue;
+
+        // Update total revenue display
+        document.getElementById('total-revenue').innerText = formatDollar(totalRevenue);
+        
+        const totalCost = parseInt(document.getElementById('total-cost').innerText.replace(/,/g, ''));
+
+        // Calculate net revenue
+        const netRevenue = totalRevenue - totalCost;
+
+        // Update net revenue display
+        const netRevenueElement = document.getElementById('net-revenue-amount');
+        netRevenueElement.innerText = formatDollar(netRevenue);
+        netRevenueElement.className = netRevenue < 0 ? 'negative' : 'positive';
+        
+        calculateIndividualResults();
+    }
+
+    // Restore Defaults Functions
+    function restoreDistributionDefaults() {
+        incomeDistributionData = JSON.parse(JSON.stringify(originalIncomeDistributionData));
+        distributionChart.data.datasets[0].data = incomeDistributionData.map(data => data.weight);
+        distributionChart.update();
+		document.getElementById('percentage-children').value = defaultPercentageChildren;
+        document.getElementById('land-area').value = defaultLandArea;
+        updateLandAreaDisplay();
+        updatePopulationDisplay();
+        updateUBICost();
+    }
+
+    function restoreUBIDefaults() {
+        document.getElementById('ubi-adult').value = 50000;
+        document.getElementById('ubi-child').value = 15000;
+        document.getElementById('clawback-rate').value = 30;
+        updateUBIDisplay();
+        updateClawbackDisplay();
+    }
+
+    function restoreFundingDefaults() {
+        document.getElementById('cost-savings').value = 800000000;
+        document.getElementById('sales-tax').value = 10000000;
+        document.getElementById('pollution-taxes').value = 657000000;
+        document.getElementById('land-tax').value = 15.36;
+        document.getElementById('income-tax').value = 3.3;
+        updateFundingDisplays();
+    }
+
+    // Initialize default values
+    restoreDistributionDefaults();
+    restoreUBIDefaults();
+    restoreFundingDefaults();
+
+	const defaultHouseholdIncome = 136689;
+    const defaultAdults = 1;
+    const defaultChildren = 0;
+    const defaultLandSize = 2750;
+
+    let previousLandSize = defaultLandSize;
+
+    function formatNumber(value, decimals) {
+        return value.toLocaleString(undefined, {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
+    }
+
+    function calculateIndividualResults() {
+        const adults = parseInt(document.getElementById('household_adults').value) || 0;
+        const children = parseInt(document.getElementById('household_children').value) || 0;
+        const householdIncome = parseFloat(document.getElementById('household_income_input').value) || 0;
+        const landSize = document.getElementById('renter').checked ? 0 : Math.round(parseFloat(document.getElementById('land_size').value) || 0);
+        const landTaxRate = parseFloat(document.getElementById('land-tax').value) || 0;
+        const incomeTaxRate = parseFloat(document.getElementById('income-tax').value) || 0;
+
+        const ubiAdult = parseInt(document.getElementById('ubi-adult').value);
+        const ubiChild = parseInt(document.getElementById('ubi-child').value);
+        const clawbackRate = parseFloat(document.getElementById('clawback-rate').value) / 100;
+        const totalUBI = (adults * ubiAdult) + (children * ubiChild);
+        const clawbackAmount = Math.min(clawbackRate * householdIncome, totalUBI);
+        const incomeTax = (householdIncome * (incomeTaxRate / 100));
+        const landTax = landSize * landTaxRate;
+        const netIncomeChange = (totalUBI - clawbackAmount - incomeTax - landTax);
+        const netIncome = householdIncome + netIncomeChange;
+
+        document.getElementById('total_ubi').textContent = `$${formatNumber(totalUBI, 2)}`;
+        document.getElementById('individual_clawback').textContent = `-$${formatNumber(clawbackAmount, 2)}`;
+        document.getElementById('income_tax').textContent = `-$${formatNumber(incomeTax, 2)}`;
+        document.getElementById('land_tax').textContent = `-$${formatNumber(landTax, 2)}`;
+        document.getElementById('net_income_change').textContent = `$${formatNumber(netIncomeChange, 2)}`;
+        document.getElementById('net_income').textContent = `$${formatNumber(netIncome, 2)}`;
+
+        // Update negative value classes
+        document.getElementById('individual_clawback').classList.toggle('negative', clawbackAmount > 0);
+        document.getElementById('income_tax').classList.toggle('negative', incomeTax > 0);
+        document.getElementById('land_tax').classList.toggle('negative', landTax > 0);
+
+        // Total net change color coding
+        const netIncomeChangeElement = document.getElementById('net_income_change');
+        if (netIncomeChange < 0) {
+            netIncomeChangeElement.classList.add('negative');
+            netIncomeChangeElement.classList.remove('positive');
+        } else {
+            netIncomeChangeElement.classList.remove('negative');
+            netIncomeChangeElement.classList.add('positive');
+        }
+    }
+
+    function restoreIndividualDefaults() {
+        document.getElementById('household_adults').value = defaultAdults;
+        document.getElementById('household_children').value = defaultChildren;
+        document.getElementById('household_income_display').textContent = formatNumber(defaultHouseholdIncome, 0);
+        document.getElementById('household_income').value = defaultHouseholdIncome;
+        document.getElementById('household_income_input').value = defaultHouseholdIncome;
+        document.getElementById('land_size_display').textContent = formatNumber(defaultLandSize, 0);
+        document.getElementById('land_size').value = defaultLandSize;
+        document.getElementById('land_size_input').value = defaultLandSize;
+        document.getElementById('renter').checked = false;
+        document.getElementById('parcel_number').removeAttribute('disabled');
+        document.getElementById('parcel_number').value = '';
+        document.getElementById('fetch_area').removeAttribute('disabled');
+        document.getElementById('address_input').removeAttribute('disabled');
+        document.getElementById('address_input').value = '';
+        document.getElementById('fetch_area_address').removeAttribute('disabled');
+        document.getElementById('land_size').removeAttribute('disabled');
+        document.getElementById('land_size_input').removeAttribute('disabled');
+
+        previousLandSize = defaultLandSize;
+
+        calculateIndividualResults();
+    }
+
+    document.getElementById('household_adults').addEventListener('input', function() {
+        calculateIndividualResults();
+    });
+
+    document.getElementById('household_children').addEventListener('input', function() {
+        calculateIndividualResults();
+    });
+
+    document.getElementById('household_income').addEventListener('input', function() {
+        const value = Math.round(this.value);
+        document.getElementById('household_income_display').textContent = formatNumber(value, 0);
+        document.getElementById('household_income_input').value = value;
+        calculateIndividualResults();
+    });
+
+    document.getElementById('household_income_input').addEventListener('input', function() {
+        const value = Math.round(this.value);
+        document.getElementById('household_income_display').textContent = formatNumber(value, 0);
+        document.getElementById('household_income').value = value;
+        calculateIndividualResults();
+    });
+
+    document.getElementById('land_size').addEventListener('input', function() {
+        const value = Math.round(this.value);
+        document.getElementById('land_size_display').textContent = formatNumber(value, 0);
+        document.getElementById('land_size_input').value = value;
+        calculateIndividualResults();
+    });
+
+    document.getElementById('land_size_input').addEventListener('input', function() {
+        const value = Math.round(this.value);
+        document.getElementById('land_size_display').textContent = formatNumber(value, 0);
+        document.getElementById('land_size').value = value;
+        calculateIndividualResults();
+    });
+
+       document.getElementById('renter').addEventListener('change', function() {
+        if (this.checked) {
+            previousLandSize = document.getElementById('land_size').value;
+            document.getElementById('land_size').value = 0;
+            document.getElementById('land_size_display').textContent = formatNumber(0, 0);
+            document.getElementById('land_size_input').value = 0;
+            document.getElementById('land_size').setAttribute('disabled', true);
+            document.getElementById('fetch_area').setAttribute('disabled', true);
+            document.getElementById('parcel_number').setAttribute('disabled', true);
+            document.getElementById('address_input').setAttribute('disabled', true);
+            document.getElementById('land_size_input').setAttribute('disabled', true);
+        } else {
+            document.getElementById('land_size').removeAttribute('disabled');
+            document.getElementById('fetch_area').removeAttribute('disabled');
+            document.getElementById('parcel_number').removeAttribute('disabled');
+            document.getElementById('address_input').removeAttribute('disabled');
+            document.getElementById('land_size_input').removeAttribute('disabled');
+            document.getElementById('land_size').value = previousLandSize;
+            document.getElementById('land_size_display').textContent = formatNumber(previousLandSize, 0);
+            document.getElementById('land_size_input').value = previousLandSize;
+        }
+        calculateIndividualResults();
+    });
+
+    function fetchLotSizeFromParcelNumberAndCalculateResults(parcelNumber) {
+      console.log(`URL: https://data.sfgov.org/resource/wv5m-vpq2.json?parcel_number=${parcelNumber}`);
+      fetch(`https://data.sfgov.org/resource/wv5m-vpq2.json?parcel_number=${parcelNumber}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        const area = Math.round(data[0].lot_area);
+                        console.log(`area: ${area}`);
+                        document.getElementById('land_size').value = area;
+                        document.getElementById('land_size_display').textContent = formatNumber(area, 0);
+                        document.getElementById('land_size_input').value = area;
+                        calculateIndividualResults();
+                    } else {
+                        alert('No data found for the given parcel number.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching area:', error);
+                });
+    }
+
+    document.getElementById('fetch_area').addEventListener('click', function() {
+        const parcelNumber = document.getElementById('parcel_number').value.trim();
+        if (parcelNumber) {
+            document.getElementById('address_input').value = '';
+            fetchLotSizeFromParcelNumberAndCalculateResults(parcelNumber);
+        } else {
+            alert('Please enter a valid parcel number.');
+        }
+    });
+
+    document.getElementById('fetch_area_address').addEventListener('click', function() {
+        const regex = /^(\d+)(?:-(\d+))?\s+([A-Za-z0-9\s]+)\s+(St|Ave|Blvd|Rd|Ln|Dr|Ct|Way|Pl|Pkwy|Terr|Cir|Loop|Hwy|Trace|Cove|Path)$/;
+        const address = document.getElementById('address_input').value.trim();
+        console.log(`address: ${address}`);
+        const match = address.match(regex);
+        if (match) {
+          const fromAddressNum = match[1];
+          const toAddressNum = match[2] || fromAddressNum; // Use fromAddressNum if toAddressNum is not provided
+          const streetName = encodeURIComponent(match[3].trim().toUpperCase());
+          const streetType = match[4].toUpperCase();
+
+          console.log(`From Address Number: ${fromAddressNum}`);
+          console.log(`To Address Number: ${toAddressNum}`);
+          console.log(`Street Name: ${streetName}`);
+          console.log(`Street Type: ${streetType}`);
+          console.log(`URL: https://data.sfgov.org/resource/acdm-wktn.json?from_address_num=${fromAddressNum}&to_address_num=${toAddressNum}&street_name=${streetName}&street_type=${streetType}`);
+          
+          fetch(`https://data.sfgov.org/resource/acdm-wktn.json?from_address_num=${fromAddressNum}&to_address_num=${toAddressNum}&street_name=${streetName}&street_type=${streetType}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(`data: ${data}`);
+                    if (data.length > 0) {
+                        const parcelNumber = data[0].blklot;
+                        if (parcelNumber) {
+                            document.getElementById('parcel_number').value = parcelNumber;
+                            fetchLotSizeFromParcelNumberAndCalculateResults(parcelNumber);
+                        } else {
+                            alert('No valid parcel number found for given address.');
+                        }
+                    } else {
+                        alert('No data found for the given address.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching area by address:', error);
+                });
+        } else {
+            alert('Please enter a valid address.');
+        }
+    });
+
+    document.getElementById('restore_defaults').addEventListener('click', function() {
+        restoreIndividualDefaults();
+    });
+
+    function startTutorial() {
+        introJs().start();
+    }
+
+    calculateIndividualResults(); // Initial calculation on page load
 </script>
+
 </body>
 </html>
-
-<!-- Load Stripe.js on your website. -->
-<!-- <script src="https://js.stripe.com/v3"></script> -->
-
-<!-- Create a button that your customers click to complete their purchase. Customize the styling to suit your branding. -->
-<!-- <button
-  style="background-color:#6772e5;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em;cursor:pointer"
-  id="donation-amount-10"
-  onclick="document.getElementById('donation-amount').value='10.00'"
->
-  $10
-</button>
-
-<button
-  style="background-color:#6772e5;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em;cursor:pointer"
-  id="donation-amount-15"
-  onclick="document.getElementById('donation-amount').value='15.00'"
->
-  $15
-</button>
-<button
-  style="background-color:#6772e5;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em;cursor:pointer"
-  id="donation-amount-20"
-  onclick="document.getElementById('donation-amount').value='20.00'"
->
-  $20
-</button>
-<button
-  style="background-color:#6772e5;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em;cursor:pointer"
-  id="checkout-button-price_1PA6nSRqsUBRwjQJAdIIXmf6"
-  role="link"
-  type="button"
->
-  25
-</button>
-<br>
-<input type="text" id="donation-amount" value="25.00">
-
-<div id="error-message"></div>
-
-<script>
-  function changeInputValue() {
-    const inputValue = "New Value"; // Change this to the desired value
-    document.getElementById("myInput").value = inputValue;
-  }  
-</script>
-
-<script>
-(function() {
-    var stripe = Stripe('pk_test_51OtwyVRqsUBRwjQJmud4ju0BRkEgWOQR5VfbfC5eksvzoJwnCr4ot6tBzCK5ivqKRjWFAB6O4iJj8AL0NF5AEBgp008vGKVJI5');
-
-    var fifteenButton = document.getElementById('checkout-button-price_1PA6nSRqsUBRwjQJAdIIXmf6');
-    fifteenButton.addEventListener('click', function () {
-    /*
-     * When the customer clicks on the button, redirect
-     * them to Checkout.
-     */
-    stripe.redirectToCheckout({
-      lineItems: [{price: 'price_1PA6nSRqsUBRwjQJAdIIXmf6', quantity: 1}],
-      mode: 'payment',
-      /*
-       * Do not rely on the redirect to the successUrl for fulfilling
-       * purchases, customers may not always reach the success_url after
-       * a successful payment.
-       * Instead use one of the strategies described in
-       * https://docs.stripe.com/payments/checkout/fulfill-orders
-       */
-      successUrl: window.location.protocol + '//www.dylanforsfmayor.com',
-      cancelUrl: window.location.protocol + '//www.dylanforsfmayor.com',
-    })
-    .then(function (result) {
-      if (result.error) {
-        /*
-         * If `redirectToCheckout` fails due to a browser or network
-         * error, display the localized error message to your customer.
-         */
-        var displayError = document.getElementById('error-message');
-        displayError.textContent = result.error.message;
-      }
-    });
-
-    var twentyFiveButton = document.getElementById('checkout-button-price_1PA6nSRqsUBRwjQJAdIIXmf6');
-
-    twentyFiveButton.addEventListener('click', function () {
-    /*
-     * When the customer clicks on the button, redirect
-     * them to Checkout.
-     */
-    stripe.redirectToCheckout({
-      lineItems: [{price: 'price_1PA6nSRqsUBRwjQJAdIIXmf6', quantity: 1}],
-      mode: 'payment',
-      /*
-       * Do not rely on the redirect to the successUrl for fulfilling
-       * purchases, customers may not always reach the success_url after
-       * a successful payment.
-       * Instead use one of the strategies described in
-       * https://docs.stripe.com/payments/checkout/fulfill-orders
-       */
-      successUrl: window.location.protocol + '//www.dylanforsfmayor.com',
-      cancelUrl: window.location.protocol + '//www.dylanforsfmayor.com',
-    })
-    .then(function (result) {
-      if (result.error) {
-        /*
-         * If `redirectToCheckout` fails due to a browser or network
-         * error, display the localized error message to your customer.
-         */
-        var displayError = document.getElementById('error-message');
-        displayError.textContent = result.error.message;
-      }
-    });
-
-  });
-})();
-</script>
-
-<script async
-  src="https://js.stripe.com/v3/buy-button.js">
-</script>
-
-<stripe-buy-button
-  buy-button-id="buy_btn_1PAdWZRqsUBRwjQJDl2eXkJQ"
-  publishable-key="pk_test_51OtwyVRqsUBRwjQJmud4ju0BRkEgWOQR5VfbfC5eksvzoJwnCr4ot6tBzCK5ivqKRjWFAB6O4iJj8AL0NF5AEBgp008vGKVJI5"
->
-</stripe-buy-button>
--->
-
-<!-- ---
-<head>
-  <meta http-equiv="refresh" content="0; URL=http://www.google.com/" />
-</ head>
-<body>
-  <p> Under Construction.</p>
-</ body>
---- -->
-
-<!-- ---
-layout: post
-title: Blogging Like a Hacker
---- -->
-
-<!-- ---
-Logo | Twitter | Facebook
-Home | About Dylan | Platform
-
-Left Aligned:
-Slogan: Propelling SF into the Future (change later) | Using science and policy to fight for a better future | Making the city run more efficiently by modernizing city government and eliminating corruption and waste | A Better SF is Possible
-Call to action: Let's fix San Francisco's government and build a community where everyone can flourish.
-
-Right Aligned:
-Photo
-
-Donate Button | Stay Updated Button
-
-Video about DHS and why running
-
-Three Pillars:
-1. Fix the System.
-2. House the Unhoused.
-3. Restore Safety to the Streets.
-
-[Reiterate the three pillars]
-[Explain how they'll be addressed ("We will")]
-... San Francisco's government has become inefficient and ineffective. For too long, city leaders have bickered and undercut each other. This is an emergency. SF is one of the most beautiful cities in the world, but for too long we've allowed untold suffering to occur on our streets.
-
-
-Introduction:
-"A New Leader for a Better San Francisco"
-[Dylan is an innovator with experience...]
-
-We're running a clean and independent campaign. No corporate PAC Mone. No fossil fuel money. Follow us to join our grassroots movement.
-
-Text boxes to sign up for email list. | Stay Update Button
-
-Endorsements along bottom
-
-Bottom of Page.
-
-==========
-Meet Dylan
-[Blurb / Slogan "Dylan will fight to fix..."]
-
-Intro
-"Dylan is an innovator with experience..."
-
-[What do I want to share with people about who I am]
-Came from a middle class family, worked hard, got some lucky opportunities.
-Mother is a social workerm, instilled values in me to give back to the community. Jewish traditions and culture placed importance on education and service to the community.
-[Why am I doing this]
-I've never thought of myself as a politician.
-Realizing how lucky I am, how many opportunities I was given.
-Have the responsibility to pay it forward.
-
-==========
-Platform Page
-
-Why I'm running:
-My name is Dylan Hirsch-Shell and I'm running for Mayor of San Francisco.
-[write something good]
-
-[Top Issue #1]:
-[The Problem]
-[Solutions]
-	[Bold Idea]
-	[Immediate Action]
-	[Long Term Reform]
-
-Top Issue #2:
-[]
-
-Top Issue #3:
-
-
-
-<form action="/action_page.php">
-    <label for="fname">Twitter handle:</label><br>
-    <input type="text" id="fname" name="fname" value=""><br>
-    <input type="submit" value="Submit">
-  </form>
---- -->
